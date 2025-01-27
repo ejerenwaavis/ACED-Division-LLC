@@ -1,3 +1,26 @@
+.accent {
+  color: #EDA505;
+}
+
+.accent-secondary {
+  color: #b2b2b2;
+}
+
+.accent-bg {
+  background-color: #EDA505;
+}
+
+.accent-bg-secondary {
+  background-color: #6d6d6d;
+}
+
+
+.accent-text {
+  color: #EDA505;
+  font-family: 'Fira Code', monospace;
+  font-weight: bold;
+}
+
 body,
 html {
   width: 100%;
