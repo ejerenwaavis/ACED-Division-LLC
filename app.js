@@ -16,6 +16,10 @@ app.get('/', (req, res) => {
     res.render('cover', {title:"Coming Soon"}); // Render the cover page
 });
 
+app.get('/privacy-policy', (req, res) => {
+    res.render('privacy', {title:"Privacy Policy"}); // Render the cover page
+});
+
 // Start the server
 app.listen(PORT, () => {
     console.log(`Server running at http://localhost:${PORT}`);

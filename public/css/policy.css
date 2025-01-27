@@ -1,0 +1,96 @@
+.accent {
+  color: #EDA505;
+}
+
+.accent-secondary {
+  color: #b2b2b2;
+}
+
+.accent-bg {
+  background-color: #EDA505;
+}
+
+.accent-bg-secondary {
+  background-color: #6d6d6d;
+}
+
+.accent-text {
+  color: #EDA505;
+  font-family: 'Fira Code', monospace;
+  font-weight: bold;
+}
+
+body {
+  background-color: #757575;
+  color: #d1d1d1;
+}
+
+.btn-accent {
+  background-color: #eda305ab;
+  color: #f8faff;
+  border: none;
+  padding: 10px 40px;
+  cursor: pointer;
+}
+
+.btn-accent-secondary {
+  background-color: #f8faff;
+  color: #EDA505;
+  border: none;
+  padding: 10px 40px;
+  cursor: pointer;
+}
+
+.btn-outline-accent {
+  border: 1px solid #eda505;
+  color: #eda505;
+  transition: all 0.1;
+}
+
+.btn-outline-accent:hover {
+  background-color: rgba(92, 92, 92, 0.299);
+  color: #EDA505;
+  /* transition: all 0.01ms; */
+}
+
+
+.policy-header {
+  background: linear-gradient(45deg, #0d6efd, #6610f2);
+  color: #fff;
+  padding: 40px 0;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.policy-header h1 {
+  margin: 0;
+  font-weight: 700;
+}
+
+/* You can tweak these card styles or rely on default Bootstrap card styling */
+.card {
+  border: none;
+  border-radius: 10px;
+}
+
+.card-body {
+  background-color: #fff;
+  border-radius: 10px;
+  color: #333;
+  /* override if you prefer the brand text color */
+  /* For better readability against a white background */
+}
+
+
+.section-title {
+  font-size: 1.05rem !important;
+  margin-bottom: 0.75rem;
+  font-weight: 700;
+}
+
+html,
+body {
+  overflow: auto !important;
+  display: block !important;
+  /* ...any other overrides... */
+}
