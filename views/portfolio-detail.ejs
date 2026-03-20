@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="icon" href="/img/Logo-Icon.png" type="image/png">
+</head>
+<body>
+  <div class="ambient-gradient"></div>
+  <div class="ambient-grid"></div>
+
+  <header>
+    <nav>
+      <div class="logo-main"><img src="/img/Logo.png" alt="ACED Division" class="logo-full"></div>
+      <ul class="nav-links">
+        <li><a href="/">Home</a></li>
+        <li><a href="/portfolio">Back to Portfolio</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="project-hero">
+    <div class="project-hero-copy">
+      <p class="eyebrow"><%= project.category.replace(/-/g, ' ') %></p>
+      <h1><%= project.title %></h1>
+      <div class="project-meta">
+        <% if (project.client) { %><span><strong>Client:</strong> <%= project.client %></span><% } %>
+        <% if (project.tags && project.tags.length) { %><span><strong>Focus:</strong> <%= project.tags.join(' · ') %></span><% } %>
+      </div>
+      <p class="hero-subtitle"><%= project.description %></p>
+      <div class="cta-buttons">
+        <a href="mailto:support@aceddivision.com" class="btn btn-accent">Start a Similar Project</a>
+        <a href="/portfolio" class="btn btn-secondary">Browse More Work</a>
+      </div>
+    </div>
+    <div class="project-media-frame">
+      <img id="active-project-image" src="<%= project.images[0] %>" alt="<%= project.title %>">
+    </div>
+  </section>
+
+  <% if (project.images && project.images.length > 1) { %>
+    <section class="content-section">
+      <div class="thumb-row">
+        <% project.images.forEach((image, index) => { %>
+          <button class="thumb-button <%= index === 0 ? 'is-active' : '' %>" data-image="<%= image %>">
+            <img src="<%= image %>" alt="<%= project.title %> thumbnail <%= index + 1 %>">
+          </button>
+        <% }) %>
+      </div>
+    </section>
+  <% } %>
+
+  <% if (embedUrl || project.videoUrl) { %>
+    <section class="content-section">
+      <div class="media-panel">
+        <h2>Media</h2>
+        <% if (embedUrl) { %>
+          <div class="video-wrap">
+            <iframe src="<%= embedUrl %>" title="<%= project.title %> video" allowfullscreen></iframe>
+          </div>
+        <% } else { %>
+          <p class="section-intro left">This project includes an external video or live experience.</p>
+          <a href="<%= project.videoUrl %>" class="btn btn-primary" target="_blank" rel="noreferrer">Open Video or Live Link</a>
+        <% } %>
+      </div>
+    </section>
+  <% } %>
+
+  <% if (project.milestones && project.milestones.length) { %>
+    <section class="content-section">
+      <div class="detail-header">
+        <p class="eyebrow">Process</p>
+        <h2>How We Did It</h2>
+      </div>
+      <div class="timeline-list">
+        <% project.milestones.sort((left, right) => (left.order || 0) - (right.order || 0)).forEach((milestone, index) => { %>
+          <article class="timeline-item">
+            <div class="timeline-marker">0<%= index + 1 %></div>
+            <div class="timeline-body">
+              <h3><%= milestone.title %></h3>
+              <p><%= milestone.description %></p>
+              <% if (milestone.image) { %>
+                <img src="<%= milestone.image %>" alt="<%= milestone.title %>" class="timeline-image">
+              <% } %>
+            </div>
+          </article>
+        <% }) %>
+      </div>
+    </section>
+  <% } %>
+
+  <% if (project.obstacles && project.obstacles.length) { %>
+    <section class="content-section">
+      <div class="detail-header">
+        <p class="eyebrow">Obstacles</p>
+        <h2>Challenges and Solutions</h2>
+      </div>
+      <div class="obstacle-list">
+        <% project.obstacles.forEach((obstacle) => { %>
+          <article class="obstacle-card">
+            <div>
+              <span class="label-muted">Challenge</span>
+              <p><%= obstacle.challenge %></p>
+            </div>
+            <div>
+              <span class="label-muted label-accent">Solution</span>
+              <p><%= obstacle.solution %></p>
+            </div>
+            <% if (obstacle.image) { %>
+              <img src="<%= obstacle.image %>" alt="Obstacle evidence" class="obstacle-image">
+            <% } %>
+          </article>
+        <% }) %>
+      </div>
+    </section>
+  <% } %>
+
+  <section class="contact-section" id="contact">
+    <div class="contact-card">
+      <div>
+        <p class="eyebrow">Contact</p>
+        <h2>Want a system like this?</h2>
+        <p>Tell us what you are building, what is slowing you down, and what success should look like.</p>
+      </div>
+      <div class="contact-actions">
+        <a href="mailto:support@aceddivision.com" class="btn btn-accent">support@aceddivision.com</a>
+        <a href="tel:+14709700798" class="btn btn-secondary">470 970 0798</a>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    document.querySelectorAll('.thumb-button').forEach((button) => {
+      button.addEventListener('click', () => {
+        document.getElementById('active-project-image').src = button.dataset.image;
+        document.querySelectorAll('.thumb-button').forEach((item) => item.classList.remove('is-active'));
+        button.classList.add('is-active');
+      });
+    });
+  </script>
+</body>
+</html>

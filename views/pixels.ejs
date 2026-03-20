@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="icon" href="/img/Logo-Icon.png" type="image/png">
+</head>
+<body>
+  <div class="ambient-gradient"></div>
+  <div class="ambient-diagonal"></div>
+
+  <header>
+    <nav>
+      <div class="logo"><img src="/img/Logo-Icon.png" alt="ACED" class="logo-icon"> <span>Pixels</span></div>
+      <ul class="nav-links">
+        <li><a href="#services">Services</a></li>
+        <li><a href="#portfolio">Portfolio</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li><a href="/">ACED Division ↗</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="landing-hero">
+    <p class="arm-eyebrow">ACED Pixels · Creative & Visual</p>
+    <h1>Visual Systems Built to<br>Make You Impossible to Ignore.</h1>
+    <p>Brand identity, photography, cinematography, graphic design, and conversion-focused visual systems — crafted to give your audience something they can't scroll past.</p>
+    <div class="cta-buttons">
+      <a href="#services" class="btn btn-primary">Explore Services</a>
+      <a href="#portfolio" class="btn btn-secondary">See Creative Work</a>
+      <a href="mailto:support@aceddivision.com" class="btn btn-accent">Start a Project</a>
+    </div>
+    <div class="capability-strip">
+      <div class="capability-strip-inner">
+        <span>BRAND IDENTITY</span><span>·</span>
+        <span>PHOTOGRAPHY</span><span>·</span>
+        <span>CINEMATOGRAPHY</span><span>·</span>
+        <span>GRAPHIC DESIGN</span><span>·</span>
+        <span>WEB DESIGN</span><span>·</span>
+        <span>MOTION GRAPHICS</span><span>·</span>
+        <span>VFX & ANIMATION</span><span>·</span>
+        <span>BRAND IDENTITY</span><span>·</span>
+        <span>PHOTOGRAPHY</span><span>·</span>
+        <span>CINEMATOGRAPHY</span><span>·</span>
+        <span>GRAPHIC DESIGN</span><span>·</span>
+        <span>WEB DESIGN</span><span>·</span>
+        <span>MOTION GRAPHICS</span><span>·</span>
+        <span>VFX & ANIMATION</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="trust-strip">
+    <div class="trust-item">
+      <h3>Multi-Platform Creative</h3>
+      <p>Print, digital, web, and motion — one cohesive creative language</p>
+    </div>
+    <div class="trust-item">
+      <h3>Brand-First Thinking</h3>
+      <p>Every visual decision is rooted in your identity and audience</p>
+    </div>
+    <div class="trust-item">
+      <h3>Conversion-Focused Design</h3>
+      <p>Beautiful design that actually moves people to act</p>
+    </div>
+  </section>
+
+  <section class="numbered-list" id="services">
+    <h2>Four things every brand knows too well.</h2>
+    <div class="numbered-items">
+      <div class="numbered-item">
+        <span class="numbered-item-num">01</span>
+        <div>
+          <h3>Looking smaller than you are</h3>
+          <p>Poor visuals signal under-investment. Even solid businesses lose trust when their brand looks inconsistent or amateurish across channels.</p>
+        </div>
+      </div>
+      <div class="numbered-item">
+        <span class="numbered-item-num">02</span>
+        <div>
+          <h3>Creative that never quite captures the vision</h3>
+          <p>Designers who don't understand your business produce beautiful deliverables that miss the point entirely. Vision requires partnership, not just skill.</p>
+        </div>
+      </div>
+      <div class="numbered-item">
+        <span class="numbered-item-num">03</span>
+        <div>
+          <h3>Visual fragmentation across touchpoints</h3>
+          <p>When the Instagram post, website, and deck look like three different brands, the cumulative effect is distrust — even when it's unintended.</p>
+        </div>
+      </div>
+      <div class="numbered-item">
+        <span class="numbered-item-num">04</span>
+        <div>
+          <h3>Visuals that don't convert</h3>
+          <p>Creative work that isn't built around conversion objectives is art, not execution. The two aren't mutually exclusive — you need both.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="content-section" style="padding-top:0;">
+    <h2 style="margin-bottom:2rem;">Capabilities built for brand impact.</h2>
+    <div class="content-grid">
+      <div class="content-item">
+        <h3>📸 Photography</h3>
+        <p>Professional photography capturing your brand, team, and products with precision and artistic vision — ready for web, print, and social.</p>
+      </div>
+      <div class="content-item">
+        <h3>🎥 Cinematography & Video</h3>
+        <p>High-quality video production and post-production services that tell your brand story with cinematic excellence and technical precision.</p>
+      </div>
+      <div class="content-item">
+        <h3>🎨 Graphic Design</h3>
+        <p>Custom design solutions including marketing materials, digital assets, pitch decks, and visual content that commands attention.</p>
+      </div>
+      <div class="content-item">
+        <h3>🖼️ Brand Identity</h3>
+        <p>Complete branding — logo, colour systems, typography, and guidelines — creating a cohesive visual identity that carries across every medium.</p>
+      </div>
+      <div class="content-item">
+        <h3>🌐 Web Design</h3>
+        <p>Conversion-focused, visually elevated web experiences that balance beautiful design with clear user journeys and measurable outcomes.</p>
+      </div>
+      <div class="content-item">
+        <h3>✨ Motion & VFX</h3>
+        <p>Visual effects and animation adding dynamic energy and professional polish to any visual communication — from social cuts to full productions.</p>
+      </div>
+    </div>
+  </section>
+
+  <% if (featuredProjects && featuredProjects.length > 0) { %>
+  <section class="showcase" id="portfolio">
+    <div class="max-w-container">
+      <p class="eyebrow">Selected Work</p>
+      <h2>Creative Portfolio</h2>
+      <p class="section-intro">Visual systems, web platforms, and brand experiences delivered across a range of industries and creative objectives.</p>
+      <div class="showcase-grid">
+        <% featuredProjects.forEach((project) => { %>
+          <article class="showcase-card">
+            <h3><%= project.title %></h3>
+            <p><%= project.description %></p>
+            <div class="chip-row">
+              <% (project.tags || []).slice(0, 3).forEach((tag) => { %><span><%= tag %></span><% }) %>
+            </div>
+            <div style="margin-top:1rem;">
+              <a href="/portfolio/<%= project.slug %>">View case study →</a>
+            </div>
+          </article>
+        <% }) %>
+      </div>
+      <div class="cta-buttons" style="margin-top:2rem;">
+        <a href="/portfolio?arm=pixels" class="btn btn-secondary">View All Creative Work</a>
+      </div>
+    </div>
+  </section>
+  <% } %>
+
+  <section class="features">
+    <div class="features-content">
+      <h2>Creative Philosophy</h2>
+      <div class="feature-grid">
+        <div class="feature-item">
+          <h3>✦ Brand-Rooted Visuals</h3>
+          <p>Every creative decision traces back to your identity, your audience, and the feeling you want to create in a room.</p>
+        </div>
+        <div class="feature-item">
+          <h3>✦ Cross-Platform Cohesion</h3>
+          <p>Digital, print, web, motion — one unified creative language that makes your brand recognisable everywhere it appears.</p>
+        </div>
+        <div class="feature-item">
+          <h3>✦ Conversion-Aware Design</h3>
+          <p>We build visuals that earn attention and guide people toward action — not just things that look good on a screen.</p>
+        </div>
+        <div class="feature-item">
+          <h3>✦ Directorial Eye</h3>
+          <p>Every frame, layout, and composition is intentional. Production quality that positions you as the credible option.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact-section" id="contact">
+    <div class="contact-card">
+      <div>
+        <p class="arm-eyebrow">ACED Pixels</p>
+        <h2>Your brand deserves visuals that actually work.</h2>
+        <p>Tell us about your project — brand, campaign, web, or video — and we'll come back with a clear creative plan.</p>
+      </div>
+      <div class="contact-actions">
+        <a href="mailto:support@aceddivision.com" class="btn btn-accent">support@aceddivision.com</a>
+        <a href="tel:+14709700798" class="btn btn-secondary">470 970 0798</a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="arm-footer" id="footer-area">
+    <p><strong>ACED Pixels</strong> — Creative & Visual</p>
+    <p>Part of <a href="/">ACED Division LLC</a> · <a href="/privacy-policy">Privacy Policy</a></p>
+    <p style="margin-top:0.8rem;">© 2026 ACED Division LLC. All rights reserved.</p>
+  </footer>
+
+  <script src="/js/script.js"></script>
+</body>
+</html>
+
+    <p>Professional graphics, stunning video production, photography, and cinematography that transforms your creative vision into reality.</p>
+    <div class="cta-buttons">
+      <a href="#services" class="btn btn-primary">See Our Portfolio</a>
+      <a href="/" class="btn btn-secondary">Back to Services</a>
+    </div>
+  </section>
+
+  <!-- Services Overview -->
+  <section class="content-section" id="services">
+    <h2>What We Offer</h2>
+    <div class="content-grid">
+      <div class="content-item">
+        <h3>📸 Photography</h3>
+        <p>Professional photography services capturing moments with precision, style, and artistic vision for your brand or personal needs.</p>
+      </div>
+      <div class="content-item">
+        <h3>🎥 Cinematography</h3>
+        <p>High-quality video production and cinematography services that tell your story with cinematic excellence and technical precision.</p>
+      </div>
+      <div class="content-item">
+        <h3>🎨 Graphic Design</h3>
+        <p>Custom graphic design solutions including branding, marketing materials, digital assets, and visual content that captivates audiences.</p>
+      </div>
+      <div class="content-item">
+        <h3>🎬 Video Editing</h3>
+        <p>Professional video editing and post-production services transforming raw footage into polished, compelling visual stories.</p>
+      </div>
+      <div class="content-item">
+        <h3>🖼️ Brand Design</h3>
+        <p>Complete branding solutions from logo design to brand guidelines, creating cohesive visual identities for your business.</p>
+      </div>
+      <div class="content-item">
+        <h3>✨ VFX & Animation</h3>
+        <p>Visual effects and animation services adding dynamic elements and professional polish to your visual content.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why Choose -->
+  <section class="features">
+    <div class="features-content">
+      <h2>Why Choose ACED Pixels</h2>
+      <div class="feature-grid">
+        <div class="feature-item">
+          <h3>✦ Creative Excellence</h3>
+          <p>Award-winning team with years of creative expertise</p>
+        </div>
+        <div class="feature-item">
+          <h3>✦ Latest Technology</h3>
+          <p>Industry-leading tools and equipment for premium quality</p>
+        </div>
+        <div class="feature-item">
+          <h3>✦ Custom Solutions</h3>
+          <p>Tailored services designed for your unique vision</p>
+        </div>
+        <div class="feature-item">
+          <h3>✦ Fast Turnaround</h3>
+          <p>Efficient delivery without compromising quality</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="content-section">
+    <div style="text-align: center; padding: 2rem; background: linear-gradient(135deg, #f5f5f5 0%, #ffffff 100%); border-radius: 16px; margin: 2rem 0;">
+      <h2>Ready to Bring Your Vision to Life?</h2>
+      <p style="margin: 1rem 0 2rem; font-size: 1.1rem; color: var(--text-light);">Let's create something extraordinary together.</p>
+      <a href="#contact" class="btn btn-accent">Start Your Project</a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer id="contact">
+    <div class="footer-content">
+      <div class="footer-section">
+        <h4>ACED Pixels</h4>
+        <p>Professional visual design and media production services.</p>
+        <ul>
+          <li><a href="mailto:support@aceddivision.com">support@aceddivision.com</a></li>
+          <li><a href="tel:+14709700798">470 970 0798</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Services</h4>
+        <ul>
+          <li><a href="#">Photography</a></li>
+          <li><a href="#">Cinematography</a></li>
+          <li><a href="#">Graphic Design</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>About</h4>
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/privacy-policy">Privacy Policy</a></li>
+          <li><a href="#">Contact Us</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Connect</h4>
+        <ul>
+          <li><a href="https://aceddivision.com/avis/">Portfolio</a></li>
+          <li><a href="mailto:support@aceddivision.com">Email Support</a></li>
+          <li><a href="tel:+14709700798">Call Us</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 ACED Division LLC. All rights reserved.</p>
+      <p class="footer-credits">Built by <a href="https://aceddivision.com/avis/">Avis Ejerenwa</a></p>
+    </div>
+  </footer>
+
+  <script src="/js/script.js"></script>
+</body>
+</html>

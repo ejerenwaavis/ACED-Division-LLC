@@ -1,0 +1,205 @@
+[
+  {
+    "id": "barcode-tool",
+    "slug": "barcode-tool",
+    "title": "Barcode Tool",
+    "arm": "devops",
+    "category": "automation",
+    "client": "ACED Division",
+    "description": "An internal barcode scanning and processing utility built to streamline inventory management, item lookup, and data entry workflows.",
+    "tags": ["Automation", "Barcode", "Node.js", "Operations"],
+    "featured": true,
+    "videoUrl": "https://www.youtube.com/watch?v=_XO7gzKFlVY",
+    "images": [
+      "https://img.youtube.com/vi/_XO7gzKFlVY/hqdefault.jpg"
+    ],
+    "milestones": [
+      {
+        "title": "Identified manual data entry pain points",
+        "description": "We mapped repetitive barcode scanning tasks and multi-step data entry workflows that caused delays in operations.",
+        "order": 0,
+        "image": ""
+      },
+      {
+        "title": "Built a fast scan-to-record pipeline",
+        "description": "The tool reduced manual entry overhead by automating the capture, validation, and routing of barcode data directly into operational systems.",
+        "order": 1,
+        "image": ""
+      }
+    ],
+    "obstacles": [
+      {
+        "challenge": "Manual barcode entry was error-prone and slowed throughput.",
+        "solution": "We built an automated scanning pipeline that removed human error and increased processing speed.",
+        "image": ""
+      }
+    ],
+    "createdAt": "2026-03-20T00:00:00.000Z",
+    "updatedAt": "2026-03-20T00:00:00.000Z"
+  },
+  {
+    "id": "delivery-dashboard",
+    "slug": "delivery-dashboard",
+    "title": "Delivery Dashboard",
+    "arm": "devops",
+    "category": "software-solutions",
+    "client": "Triumph Courier Services",
+    "description": "A command-center dashboard for delivery monitoring, scheduling, payroll visibility, SmartStop integration, and operational access control.",
+    "tags": ["Node.js", "JavaScript", "MongoDB", "Logistics"],
+    "featured": true,
+    "videoUrl": "https://www.youtube.com/watch?v=BSOqdCPgiqY",
+    "images": [
+      "https://img.youtube.com/vi/BSOqdCPgiqY/hqdefault.jpg"
+    ],
+    "milestones": [
+      {
+        "title": "Mapped the operational bottlenecks",
+        "description": "We studied dispatch workflows, monitoring gaps, payroll visibility issues, and repetitive manual processes before writing the first feature.",
+        "order": 0,
+        "image": ""
+      },
+      {
+        "title": "Built role-based dashboards",
+        "description": "The platform centralized scheduling, weekly summaries, access controls, and business-critical utilities into a single operational system.",
+        "order": 1,
+        "image": ""
+      }
+    ],
+    "obstacles": [
+      {
+        "challenge": "Operations data was fragmented across tools and manual routines.",
+        "solution": "We unified core actions into one dashboard experience with clear role-aware access and reporting.",
+        "image": ""
+      }
+    ],
+    "createdAt": "2026-03-19T00:00:00.000Z",
+    "updatedAt": "2026-03-19T00:00:00.000Z"
+  },
+  {
+    "id": "routing-assistant",
+    "slug": "routing-assistant",
+    "title": "Routing Assistant",
+    "arm": "devops",
+    "category": "automation",
+    "client": "Triumph Courier Services",
+    "description": "A route-preparation utility that converts exported manifests into formats compatible with third-party navigation apps such as RoadWarrior and Circuit.",
+    "tags": ["Automation", "Routing", "Node.js"],
+    "featured": true,
+    "videoUrl": "https://www.youtube.com/watch?v=-11sRkgGQPs",
+    "images": [
+      "https://img.youtube.com/vi/-11sRkgGQPs/hqdefault.jpg"
+    ],
+    "milestones": [
+      {
+        "title": "Standardized manifest processing",
+        "description": "We normalized source data so teams could reliably transform outbound manifests into upload-ready route files.",
+        "order": 0,
+        "image": ""
+      },
+      {
+        "title": "Reduced route planning friction",
+        "description": "The tool removed repetitive prep work and helped save over 300 hours per week in route planning effort.",
+        "order": 1,
+        "image": ""
+      }
+    ],
+    "obstacles": [
+      {
+        "challenge": "Manifest formats were inconsistent and painful to prepare manually.",
+        "solution": "We built a transformation workflow that automated formatting and reduced human error.",
+        "image": ""
+      }
+    ],
+    "createdAt": "2026-03-19T00:00:00.000Z",
+    "updatedAt": "2026-03-19T00:00:00.000Z"
+  },
+  {
+    "id": "smartstop",
+    "slug": "smartstop",
+    "title": "SmartStop",
+    "arm": "devops",
+    "category": "mapping-intelligence",
+    "client": "Triumph Courier Services",
+    "description": "A HERE Maps-backed web application that helps delivery teams gain secure access to gated communities and reduce failed deliveries.",
+    "tags": ["HERE Maps", "MongoDB", "Operations"],
+    "featured": true,
+    "videoUrl": "https://www.youtube.com/watch?v=x73gXIWBzQk",
+    "images": [
+      "https://img.youtube.com/vi/x73gXIWBzQk/hqdefault.jpg"
+    ],
+    "milestones": [
+      {
+        "title": "Integrated location intelligence",
+        "description": "We combined mapping, access data, and delivery context into a single workflow for field teams.",
+        "order": 0,
+        "image": ""
+      }
+    ],
+    "obstacles": [
+      {
+        "challenge": "Missed deliveries were often caused by gated-access delays.",
+        "solution": "We designed a system that gave drivers better information and a faster path to successful completion.",
+        "image": ""
+      }
+    ],
+    "createdAt": "2026-03-19T00:00:00.000Z",
+    "updatedAt": "2026-03-19T00:00:00.000Z"
+  },
+  {
+    "id": "rokit-online-v3",
+    "slug": "rokit-online-v3",
+    "title": "Rokit Online v3",
+    "arm": "pixels",
+    "category": "web-design",
+    "client": "Rokit Media",
+    "description": "A motion-rich, editorial-style web platform designed to showcase services, featured work, brand trust, and high-conversion user journeys.",
+    "tags": ["Web Design", "Motion", "Brand Experience"],
+    "featured": true,
+    "videoUrl": "https://v3.rokitonline.com/",
+    "images": [
+      "/img/Logo.png"
+    ],
+    "milestones": [
+      {
+        "title": "Established an editorial visual language",
+        "description": "We leaned into strong typography, layered sections, and elevated motion to increase perceived quality and brand authority.",
+        "order": 0,
+        "image": ""
+      },
+      {
+        "title": "Built conversion-focused page flows",
+        "description": "Gallery, services, CTA bands, and trust sections were arranged to move users toward quotes, orders, and portfolio exploration.",
+        "order": 1,
+        "image": ""
+      }
+    ],
+    "obstacles": [
+      {
+        "challenge": "The experience needed to feel bold and modern without becoming visually heavy.",
+        "solution": "We used light backgrounds, restrained color accents, and subtle layered motion to keep the interface premium and breathable.",
+        "image": ""
+      }
+    ],
+    "createdAt": "2026-03-19T00:00:00.000Z",
+    "updatedAt": "2026-03-19T00:00:00.000Z"
+  },
+  {
+    "id": "paris-beauty-and-hair-studio",
+    "slug": "paris-beauty-and-hair-studio",
+    "title": "Paris Beauty & Hair Studio",
+    "arm": "pixels",
+    "category": "client-platform",
+    "client": "Paris Beauty & Hair Studio",
+    "description": "A salon website experience with appointment booking, payment integration, and customer-facing presentation tailored for smoother operations and better conversion.",
+    "tags": ["Booking", "Payments", "Client Experience"],
+    "featured": false,
+    "videoUrl": "https://www.youtube.com/watch?v=9BsZSQtY_fI",
+    "images": [
+      "https://img.youtube.com/vi/9BsZSQtY_fI/hqdefault.jpg"
+    ],
+    "milestones": [],
+    "obstacles": [],
+    "createdAt": "2026-03-19T00:00:00.000Z",
+    "updatedAt": "2026-03-19T00:00:00.000Z"
+  }
+]

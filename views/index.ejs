@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="icon" href="/img/Logo-Icon.png" type="image/png">
+</head>
+<body>
+  <div class="ambient-gradient"></div>
+  <div class="ambient-diagonal"></div>
+
+  <header>
+    <nav>
+      <div class="logo-main"><img src="/img/Logo.png" alt="ACED Division" class="logo-full"></div>
+      <ul class="nav-links">
+        <li><a href="#services">Services</a></li>
+        <li><a href="#impact">Impact</a></li>
+        <li><a href="/portfolio">Portfolio</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li><a href="/privacy-policy">Privacy</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <p class="arm-eyebrow">ACED Division LLC · Pixels · Devops · Trades</p>
+    <h1>World-Class Systems, Visuals, and Market Intelligence.</h1>
+    <p class="hero-subtitle">We build high-impact digital products, media experiences, and trading intelligence systems that help ambitious teams move faster and scale with confidence.</p>
+    <div class="cta-buttons">
+      <a href="#services" class="btn btn-primary">Explore Core Arms</a>
+      <a href="/portfolio" class="btn btn-secondary">See Portfolio</a>
+      <a href="mailto:support@aceddivision.com" class="btn btn-accent">Start a Project</a>
+    </div>
+    <div class="capability-strip">
+      <div class="capability-strip-inner">
+        <span>ACED PIXELS</span><span>·</span>
+        <span>BRAND IDENTITY &amp; DESIGN</span><span>·</span>
+        <span>ACED DEVOPS</span><span>·</span>
+        <span>SOFTWARE SYSTEMS</span><span>·</span>
+        <span>ACED TRADES</span><span>·</span>
+        <span>FINANCIAL MARKETS</span><span>·</span>
+        <span>ACED PIXELS</span><span>·</span>
+        <span>BRAND IDENTITY &amp; DESIGN</span><span>·</span>
+        <span>ACED DEVOPS</span><span>·</span>
+        <span>SOFTWARE SYSTEMS</span><span>·</span>
+        <span>ACED TRADES</span><span>·</span>
+        <span>FINANCIAL MARKETS</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="trust-strip">
+    <div class="trust-item">
+      <h3>300+ hrs/week</h3>
+      <p>Workflow time saved in logistics operations</p>
+    </div>
+    <div class="trust-item">
+      <h3>2009 to Present</h3>
+      <p>Hands-on product engineering and delivery</p>
+    </div>
+    <div class="trust-item">
+      <h3>Node.js + JS + MongoDB</h3>
+      <p>Modern stack for scalable business systems</p>
+    </div>
+  </section>
+
+  <section class="services" id="services">
+    <h2>Our Core Services</h2>
+    <p class="section-intro">Each arm is focused, specialized, and execution-driven. Together, they form a complete growth engine for modern brands and operations.</p>
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="service-icon">🎨</div>
+        <h3>ACED Pixels</h3>
+        <p>Brand identity, graphics, photography, cinematography, and conversion-focused visual systems that make your brand impossible to ignore.</p>
+        <a href="/pixels">Explore Pixels →</a>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">💻</div>
+        <h3>ACED Devops</h3>
+        <p>Production-grade software, SaaS platforms, automation, APIs, routing intelligence, and business workflow systems built for measurable performance.</p>
+        <a href="/devops">Explore Devops →</a>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">📈</div>
+        <h3>ACED Trades</h3>
+        <p>Market strategy, risk-aware frameworks, and disciplined execution support across futures and forex environments.</p>
+        <a href="/trades">Explore Trades →</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="showcase" id="impact">
+    <div class="max-w-container">
+      <h2>Featured Portfolio</h2>
+      <p class="section-intro">A live showcase of systems, websites, and operational tools built across the ACED ecosystem. Featured items can now be managed directly from the portfolio admin panel.</p>
+      <div class="showcase-grid">
+        <% featuredProjects.forEach((project) => { %>
+          <article class="showcase-card">
+            <h3><%= project.title %></h3>
+            <p><%= project.description %></p>
+            <div class="chip-row">
+              <% (project.tags || []).slice(0, 3).forEach((tag) => { %>
+                <span><%= tag %></span>
+              <% }) %>
+            </div>
+            <div class="mt-4">
+              <a href="/portfolio/<%= project.slug %>">View case study →</a>
+            </div>
+          </article>
+        <% }) %>
+      </div>
+      <div class="cta-buttons">
+        <a href="/portfolio" class="btn btn-secondary">Browse Full Portfolio</a>
+        <a href="/admin/portfolio" class="btn btn-primary">Portfolio Management</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="features" id="about">
+    <div class="features-content">
+      <h2>How We Operate</h2>
+      <div class="feature-grid">
+        <div class="feature-item">
+          <h3>✦ Engineering Depth</h3>
+          <p>We architect solutions for long-term maintainability, not short-term patches.</p>
+        </div>
+        <div class="feature-item">
+          <h3>✦ Product Precision</h3>
+          <p>Every screen, workflow, and integration is purpose-built to produce outcomes.</p>
+        </div>
+        <div class="feature-item">
+          <h3>✦ Speed With Structure</h3>
+          <p>Rapid delivery backed by clear systems, standards, and operational discipline.</p>
+        </div>
+        <div class="feature-item">
+          <h3>✦ Cross-Arm Advantage</h3>
+          <p>Design, software, and market intelligence working as one strategic unit.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact-section" id="contact">
+    <div class="contact-card">
+      <div>
+        <p class="eyebrow">Contact ACED Division</p>
+        <h2>Let’s build something with real impact.</h2>
+        <p>For software systems, design execution, media production, or strategic project discussions, reach us directly and we will respond with the right next step.</p>
+      </div>
+      <div class="contact-actions">
+        <a href="mailto:support@aceddivision.com" class="btn btn-accent">support@aceddivision.com</a>
+        <a href="tel:+14709700798" class="btn btn-secondary">470 970 0798</a>
+      </div>
+    </div>
+  </section>
+
+  <footer id="footer-area">
+    <div class="footer-content">
+      <div class="footer-section">
+        <h4>ACED Division</h4>
+        <p>Creative, technical, and market systems built for high-impact growth.</p>
+        <ul>
+          <li><a href="mailto:support@aceddivision.com">support@aceddivision.com</a></li>
+          <li><a href="tel:+14709700798">470 970 0798</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Services</h4>
+        <ul>
+          <li><a href="/pixels">Pixels</a></li>
+          <li><a href="/devops">Devops</a></li>
+          <li><a href="/trades">Trades</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="/privacy-policy">Privacy Policy</a></li>
+          <li><a href="#">Terms of Service</a></li>
+          <li><a href="mailto:support@aceddivision.com">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Connect</h4>
+        <ul>
+          <li><a href="https://aceddivision.com/avis/">Portfolio</a></li>
+          <li><a href="mailto:support@aceddivision.com">Email Support</a></li>
+          <li><a href="tel:+14709700798">Call Us</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 ACED Division LLC. All rights reserved.</p>
+      <p class="footer-credits">Built by <a href="https://aceddivision.com/avis/">Avis Ejerenwa</a></p>
+    </div>
+  </footer>
+
+  <script src="/js/script.js"></script>
+</body>
+</html>

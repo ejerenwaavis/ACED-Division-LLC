@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="icon" href="/img/Logo-Icon.png" type="image/png">
+</head>
+<body>
+  <div class="ambient-gradient"></div>
+  <div class="ambient-diagonal"></div>
+
+  <header>
+    <nav>
+      <div class="logo"><img src="/img/Logo-Icon.png" alt="ACED" class="logo-icon"> <span>Devops</span></div>
+      <ul class="nav-links">
+        <li><a href="#solutions">Solutions</a></li>
+        <li><a href="#portfolio">Portfolio</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li><a href="/">ACED Division ↗</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="landing-hero">
+    <p class="arm-eyebrow">ACED Devops · Software & Engineering</p>
+    <h1>Engineering Systems That<br>Move Real Operations.</h1>
+    <p>From routing intelligence to scalable SaaS platforms, we design and ship production-ready systems that reduce friction, automate workflows, and give operations teams real control.</p>
+    <div class="cta-buttons">
+      <a href="#solutions" class="btn btn-primary">Explore Solutions</a>
+      <a href="#portfolio" class="btn btn-secondary">See Delivery Record</a>
+      <a href="mailto:support@aceddivision.com" class="btn btn-accent">Start Consultation</a>
+    </div>
+    <div class="capability-strip">
+      <div class="capability-strip-inner">
+        <span>SOFTWARE SYSTEMS</span><span>·</span>
+        <span>WORKFLOW AUTOMATION</span><span>·</span>
+        <span>SaaS PLATFORMS</span><span>·</span>
+        <span>ROUTE INTELLIGENCE</span><span>·</span>
+        <span>CUSTOM ENGINEERING</span><span>·</span>
+        <span>API DESIGN</span><span>·</span>
+        <span>OPS DASHBOARDS</span><span>·</span>
+        <span>SOFTWARE SYSTEMS</span><span>·</span>
+        <span>WORKFLOW AUTOMATION</span><span>·</span>
+        <span>SaaS PLATFORMS</span><span>·</span>
+        <span>ROUTE INTELLIGENCE</span><span>·</span>
+        <span>CUSTOM ENGINEERING</span><span>·</span>
+        <span>API DESIGN</span><span>·</span>
+        <span>OPS DASHBOARDS</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="trust-strip">
+    <div class="trust-item">
+      <h3>300+ hrs/week</h3>
+      <p>Saved via route and workflow optimization</p>
+    </div>
+    <div class="trust-item">
+      <h3>Multi-System Delivery</h3>
+      <p>Dashboards, APIs, automation, and data tools</p>
+    </div>
+    <div class="trust-item">
+      <h3>Live Production Use</h3>
+      <p>Built and tested inside active operations</p>
+    </div>
+  </section>
+
+  <section class="numbered-list" id="solutions">
+    <h2>Four things every ops team knows too well.</h2>
+    <div class="numbered-items">
+      <div class="numbered-item">
+        <span class="numbered-item-num">01</span>
+        <div>
+          <h3>Tools that don't talk to each other</h3>
+          <p>Fragmented systems mean manual re-entry, blind spots, and errors that compound. Teams end up managing software instead of running operations.</p>
+        </div>
+      </div>
+      <div class="numbered-item">
+        <span class="numbered-item-num">02</span>
+        <div>
+          <h3>Repetitive tasks draining your team</h3>
+          <p>Route prep, manifest formatting, attendance tracking, scheduling — these aren't strategic work. They're friction disguised as process.</p>
+        </div>
+      </div>
+      <div class="numbered-item">
+        <span class="numbered-item-num">03</span>
+        <div>
+          <h3>No single view of what's happening</h3>
+          <p>When decisions depend on who's available to dig through spreadsheets, your operation is slower than it needs to be.</p>
+        </div>
+      </div>
+      <div class="numbered-item">
+        <span class="numbered-item-num">04</span>
+        <div>
+          <h3>Off-the-shelf software that almost fits</h3>
+          <p>Generic platforms force your business to conform to their logic. Custom systems conform to yours.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="content-section" style="padding-top:0;">
+    <h2 style="margin-bottom:2rem;">Built to answer every challenge.</h2>
+    <div class="content-grid">
+      <div class="content-item">
+        <h3>💾 SaaS & Internal Platforms</h3>
+        <p>Secure, role-aware platforms for scheduling, dispatch management, onboarding, and team productivity — built around your exact workflows.</p>
+      </div>
+      <div class="content-item">
+        <h3>🔧 Workflow Automation</h3>
+        <p>Automation systems that remove repetitive manual processes and create predictable, faster delivery cycles with fewer errors.</p>
+      </div>
+      <div class="content-item">
+        <h3>🏗️ Custom Product Engineering</h3>
+        <p>Business-specific apps and interfaces designed from first principles around real operational constraints and growth requirements.</p>
+      </div>
+      <div class="content-item">
+        <h3>🗺️ Mapping & Route Intelligence</h3>
+        <p>Location-aware solutions using routing and geospatial integrations to improve completion rates and field-team efficiency.</p>
+      </div>
+      <div class="content-item">
+        <h3>📊 Operations Dashboards</h3>
+        <p>Actionable reporting layers that transform raw activity data into decision-ready intelligence for leadership and field teams.</p>
+      </div>
+      <div class="content-item">
+        <h3>🔐 Resilient Architecture</h3>
+        <p>Practical architecture choices focused on reliability, maintainability, and long-term business continuity without over-engineering.</p>
+      </div>
+    </div>
+  </section>
+
+  <% if (featuredProjects && featuredProjects.length > 0) { %>
+  <section class="showcase" id="portfolio">
+    <div class="max-w-container">
+      <p class="eyebrow">Selected Work</p>
+      <h2>Delivery Record</h2>
+      <p class="section-intro">Systems built, shipped, and running inside live operations across logistics, courier services, and business automation.</p>
+      <div class="showcase-grid">
+        <% featuredProjects.forEach((project) => { %>
+          <article class="showcase-card">
+            <h3><%= project.title %></h3>
+            <p><%= project.description %></p>
+            <div class="chip-row">
+              <% (project.tags || []).slice(0, 3).forEach((tag) => { %><span><%= tag %></span><% }) %>
+            </div>
+            <div style="margin-top:1rem;">
+              <a href="/portfolio/<%= project.slug %>">View case study →</a>
+            </div>
+          </article>
+        <% }) %>
+      </div>
+      <div class="cta-buttons" style="margin-top:2rem;">
+        <a href="/portfolio?arm=devops" class="btn btn-secondary">View All Devops Work</a>
+      </div>
+    </div>
+  </section>
+  <% } %>
+
+  <section class="features">
+    <div class="features-content">
+      <h2>Engineering DNA</h2>
+      <div class="feature-grid">
+        <div class="feature-item">
+          <h3>✦ Outcome-First Architecture</h3>
+          <p>Every technical decision is anchored to a measurable business objective — not to what's trendy.</p>
+        </div>
+        <div class="feature-item">
+          <h3>✦ Practical Scalability</h3>
+          <p>Systems built to handle growth without introducing avoidable complexity or vendor lock-in.</p>
+        </div>
+        <div class="feature-item">
+          <h3>✦ Lean, Fast Delivery</h3>
+          <p>Clear milestones, rapid execution, and disciplined testing from kickoff to launch.</p>
+        </div>
+        <div class="feature-item">
+          <h3>✦ Full Product Thinking</h3>
+          <p>Engineering, UX, and workflow design aligned into one coherent system that your team can actually use.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact-section" id="contact">
+    <div class="contact-card">
+      <div>
+        <p class="arm-eyebrow">ACED Devops</p>
+        <h2>Tell us your bottleneck. We'll close it.</h2>
+        <p>Describe your current operational friction and we'll come back with a focused roadmap. No generic proposals.</p>
+      </div>
+      <div class="contact-actions">
+        <a href="mailto:support@aceddivision.com" class="btn btn-accent">support@aceddivision.com</a>
+        <a href="tel:+14709700798" class="btn btn-secondary">470 970 0798</a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="arm-footer" id="footer-area">
+    <p><strong>ACED Devops</strong> — Software & Engineering</p>
+    <p>Part of <a href="/">ACED Division LLC</a> · <a href="/privacy-policy">Privacy Policy</a></p>
+    <p style="margin-top:0.8rem;">© 2026 ACED Division LLC. All rights reserved.</p>
+  </footer>
+
+  <script src="/js/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="icon" href="/img/Logo-Icon.png" type="image/png">
+</head>
+<body class="admin-body">
+  <div class="ambient-gradient"></div>
+  <div class="ambient-grid"></div>
+
+  <header>
+    <nav>
+      <div class="logo"><img src="/img/Logo-Icon.png" alt="ACED" class="logo-icon"> <span>Portfolio Admin</span></div>
+      <ul class="nav-links">
+        <li><a href="/admin/portfolio">Back to Manager</a></li>
+        <li><a href="/portfolio">View Portfolio</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="content-section admin-form-shell">
+    <div class="admin-head">
+      <div>
+        <p class="eyebrow">Project Editor</p>
+        <h1><%= pageTitle %></h1>
+        <p>Capture the project story in enough detail that visitors can understand both the craft and the execution depth behind it.</p>
+      </div>
+    </div>
+
+    <% if (typeof errorMessage !== 'undefined' && errorMessage) { %>
+      <div class="form-error"><%= errorMessage %></div>
+    <% } %>
+
+    <form action="<%= actionUrl %>" method="post" enctype="multipart/form-data" class="admin-form" id="portfolio-form">
+      <div class="admin-form-grid">
+        <div>
+          <label>Project Title</label>
+          <input type="text" name="title" value="<%= project?.title || '' %>" required>
+        </div>
+        <div>
+          <label>Business Arm</label>
+          <select name="arm">
+            <option value="">Select arm (optional)</option>
+            <% arms.forEach((arm) => { %>
+              <option value="<%= arm %>" <%= project?.arm === arm ? 'selected' : '' %>><%= arm.charAt(0).toUpperCase() + arm.slice(1) %></option>
+            <% }) %>
+          </select>
+        </div>
+        <div>
+          <label>Category</label>
+          <select name="category" required>
+            <option value="">Select a category</option>
+            <% categories.forEach((category) => { %>
+              <option value="<%= category %>" <%= project?.category === category ? 'selected' : '' %>><%= category.replace(/-/g, ' ') %></option>
+            <% }) %>
+          </select>
+        </div>
+        <div>
+          <label>Client</label>
+          <input type="text" name="client" value="<%= project?.client || '' %>">
+        </div>
+        <div>
+          <label>Tags</label>
+          <input type="text" name="tags" value="<%= project?.tags ? project.tags.join(', ') : '' %>" placeholder="Node.js, Motion, Branding">
+        </div>
+      </div>
+
+      <div>
+        <label>Description</label>
+        <textarea name="description" rows="4"><%= project?.description || '' %></textarea>
+      </div>
+
+      <div class="admin-form-grid">
+        <div>
+          <label>YouTube URL or External Link</label>
+          <input type="url" name="videoUrl" value="<%= project?.videoUrl || '' %>">
+        </div>
+        <div class="check-row">
+          <label class="checkbox-field">
+            <input type="checkbox" name="featured" <%= project?.featured ? 'checked' : '' %>>
+            <span>Show on homepage portfolio section</span>
+          </label>
+        </div>
+      </div>
+
+      <% if (project?.images?.length) { %>
+        <div>
+          <label>Existing Project Media</label>
+          <div class="existing-media-grid">
+            <% project.images.forEach((image) => { %>
+              <div class="existing-media-card">
+                <img src="<%= image %>" alt="Existing project media">
+                <input type="hidden" name="existingImages" value="<%= image %>">
+                <label class="checkbox-field small">
+                  <input type="checkbox" name="removeImages" value="<%= image %>">
+                  <span>Remove this image</span>
+                </label>
+              </div>
+            <% }) %>
+          </div>
+        </div>
+      <% } %>
+
+      <div>
+        <label>Project Images</label>
+        <input type="file" name="projectImages" accept="image/*" multiple <%= project ? '' : 'required' %>>
+        <p class="help-text">Upload one or more images. The first image becomes the cover image.</p>
+      </div>
+
+      <input type="hidden" name="milestoneCount" id="milestone-count" value="<%= project?.milestones?.length || 0 %>">
+      <section class="dynamic-section">
+        <div class="dynamic-section-head">
+          <div>
+            <h2>Milestones / Process</h2>
+            <p>Add the steps, milestones, or phases behind the project delivery.</p>
+          </div>
+          <button type="button" class="btn btn-secondary dynamic-add" data-target="milestones">Add Step</button>
+        </div>
+        <div id="milestone-list" class="dynamic-list">
+          <% (project?.milestones || []).forEach((milestone, index) => { %>
+            <div class="dynamic-card milestone-item" data-index="<%= index %>">
+              <div class="dynamic-card-head">
+                <h3>Milestone <span class="dynamic-number"><%= index + 1 %></span></h3>
+                <button type="button" class="dynamic-remove">Remove</button>
+              </div>
+              <div class="admin-form-grid three-up">
+                <div>
+                  <label>Title</label>
+                  <input type="text" name="milestoneTitle_<%= index %>" value="<%= milestone.title || '' %>">
+                </div>
+                <div>
+                  <label>Order</label>
+                  <input type="number" name="milestoneOrder_<%= index %>" value="<%= milestone.order ?? index %>">
+                </div>
+                <div>
+                  <label>Image</label>
+                  <input type="file" name="milestoneImage_<%= index %>" accept="image/*">
+                  <input type="hidden" name="milestoneExistingImage_<%= index %>" value="<%= milestone.image || '' %>">
+                  <% if (milestone.image) { %>
+                    <label class="checkbox-field small">
+                      <input type="checkbox" name="milestoneRemoveImage_<%= index %>">
+                      <span>Remove existing image</span>
+                    </label>
+                  <% } %>
+                </div>
+              </div>
+              <div>
+                <label>Description</label>
+                <textarea name="milestoneDescription_<%= index %>" rows="3"><%= milestone.description || '' %></textarea>
+              </div>
+              <% if (milestone.image) { %><img src="<%= milestone.image %>" alt="Milestone image" class="inline-preview"><% } %>
+            </div>
+          <% }) %>
+        </div>
+      </section>
+
+      <input type="hidden" name="obstacleCount" id="obstacle-count" value="<%= project?.obstacles?.length || 0 %>">
+      <section class="dynamic-section">
+        <div class="dynamic-section-head">
+          <div>
+            <h2>Obstacles and Solutions</h2>
+            <p>Show the constraints, friction points, and how your team overcame them.</p>
+          </div>
+          <button type="button" class="btn btn-secondary dynamic-add" data-target="obstacles">Add Obstacle</button>
+        </div>
+        <div id="obstacle-list" class="dynamic-list">
+          <% (project?.obstacles || []).forEach((obstacle, index) => { %>
+            <div class="dynamic-card obstacle-item" data-index="<%= index %>">
+              <div class="dynamic-card-head">
+                <h3>Obstacle <span class="dynamic-number"><%= index + 1 %></span></h3>
+                <button type="button" class="dynamic-remove">Remove</button>
+              </div>
+              <div class="admin-form-grid two-up">
+                <div>
+                  <label>Challenge</label>
+                  <textarea name="obstacleChallenge_<%= index %>" rows="4"><%= obstacle.challenge || '' %></textarea>
+                </div>
+                <div>
+                  <label>Solution</label>
+                  <textarea name="obstacleSolution_<%= index %>" rows="4"><%= obstacle.solution || '' %></textarea>
+                </div>
+              </div>
+              <div>
+                <label>Image</label>
+                <input type="file" name="obstacleImage_<%= index %>" accept="image/*">
+                <input type="hidden" name="obstacleExistingImage_<%= index %>" value="<%= obstacle.image || '' %>">
+                <% if (obstacle.image) { %>
+                  <label class="checkbox-field small">
+                    <input type="checkbox" name="obstacleRemoveImage_<%= index %>">
+                    <span>Remove existing image</span>
+                  </label>
+                <% } %>
+                <% if (obstacle.image) { %><img src="<%= obstacle.image %>" alt="Obstacle image" class="inline-preview"><% } %>
+              </div>
+            </div>
+          <% }) %>
+        </div>
+      </section>
+
+      <div class="form-actions">
+        <a href="/admin/portfolio" class="btn btn-secondary">Cancel</a>
+        <button type="submit" class="btn btn-accent"><%= submitLabel %></button>
+      </div>
+    </form>
+  </section>
+
+  <template id="milestone-template">
+    <div class="dynamic-card milestone-item" data-index="__INDEX__">
+      <div class="dynamic-card-head">
+        <h3>Milestone <span class="dynamic-number">__NUMBER__</span></h3>
+        <button type="button" class="dynamic-remove">Remove</button>
+      </div>
+      <div class="admin-form-grid three-up">
+        <div>
+          <label>Title</label>
+          <input type="text" name="milestoneTitle___INDEX__">
+        </div>
+        <div>
+          <label>Order</label>
+          <input type="number" name="milestoneOrder___INDEX__" value="__INDEX__">
+        </div>
+        <div>
+          <label>Image</label>
+          <input type="file" name="milestoneImage___INDEX__" accept="image/*">
+          <input type="hidden" name="milestoneExistingImage___INDEX__" value="">
+        </div>
+      </div>
+      <div>
+        <label>Description</label>
+        <textarea name="milestoneDescription___INDEX__" rows="3"></textarea>
+      </div>
+    </div>
+  </template>
+
+  <template id="obstacle-template">
+    <div class="dynamic-card obstacle-item" data-index="__INDEX__">
+      <div class="dynamic-card-head">
+        <h3>Obstacle <span class="dynamic-number">__NUMBER__</span></h3>
+        <button type="button" class="dynamic-remove">Remove</button>
+      </div>
+      <div class="admin-form-grid two-up">
+        <div>
+          <label>Challenge</label>
+          <textarea name="obstacleChallenge___INDEX__" rows="4"></textarea>
+        </div>
+        <div>
+          <label>Solution</label>
+          <textarea name="obstacleSolution___INDEX__" rows="4"></textarea>
+        </div>
+      </div>
+      <div>
+        <label>Image</label>
+        <input type="file" name="obstacleImage___INDEX__" accept="image/*">
+        <input type="hidden" name="obstacleExistingImage___INDEX__" value="">
+      </div>
+    </div>
+  </template>
+
+  <script src="/js/admin-portfolio.js"></script>
+</body>
+</html>

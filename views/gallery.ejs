@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="icon" href="/img/Logo-Icon.png" type="image/png">
+</head>
+<body>
+  <div class="ambient-gradient"></div>
+  <div class="ambient-diagonal"></div>
+
+  <header>
+    <nav>
+      <div class="logo-main"><img src="/img/Logo.png" alt="ACED Division" class="logo-full"></div>
+      <ul class="nav-links">
+        <li><a href="/">Home</a></li>
+        <li><a href="/portfolio">Portfolio</a></li>
+        <li><a href="/admin/portfolio">Admin</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="landing-hero compact-hero">
+    <p class="eyebrow">Selected Work</p>
+    <h1>Portfolio That Shows Process, Not Just Polish.</h1>
+    <p>Explore featured project delivery, visual case studies, workflow milestones, and obstacle-to-solution breakdowns across the ACED ecosystem.</p>
+  </section>
+
+  <section class="content-section gallery-shell">
+    <div class="filter-row">
+      <a href="/portfolio" class="filter-chip <%= !activeCategory && !activeArm ? 'is-active' : '' %>">All</a>
+      <% if (site === 'master') { %>
+        <a href="/portfolio?arm=devops" class="filter-chip arm-badge-devops <%= activeArm === 'devops' && !activeCategory ? 'is-active' : '' %>">Devops</a>
+        <a href="/portfolio?arm=pixels" class="filter-chip arm-badge-pixels <%= activeArm === 'pixels' && !activeCategory ? 'is-active' : '' %>">Pixels</a>
+        <a href="/portfolio?arm=trades" class="filter-chip arm-badge-trades <%= activeArm === 'trades' && !activeCategory ? 'is-active' : '' %>">Trades</a>
+        <span style="width:1px;background:var(--border);margin:0 0.3rem;"></span>
+      <% } %>
+      <% categories.forEach((category) => { %>
+        <a href="/portfolio?<%= activeArm ? 'arm=' + activeArm + '&' : '' %>category=<%= category %>" class="filter-chip <%= activeCategory === category ? 'is-active' : '' %>"><%= category.replace(/-/g, ' ') %></a>
+      <% }) %>
+    </div>
+
+    <div class="portfolio-grid">
+      <% projects.forEach((project, index) => { %>
+        <a href="/portfolio/<%= project.slug %>" class="portfolio-card <%= index % 5 === 0 ? 'portfolio-card-featured' : '' %>">
+          <div class="portfolio-media">
+            <img src="<%= project.images[0] %>" alt="<%= project.title %>">
+          </div>
+          <div class="portfolio-overlay">
+            <% if (project.arm) { %>
+              <span class="arm-badge arm-badge-<%= project.arm %>" style="margin-bottom:0.4rem;"><%= project.arm %></span>
+            <% } %>
+            <span class="portfolio-category"><%= project.category.replace(/-/g, ' ') %></span>
+            <h3><%= project.title %></h3>
+            <p><%= project.client || 'ACED Division' %></p>
+            <span class="portfolio-link">View project</span>
+          </div>
+        </a>
+      <% }) %>
+    </div>
+  </section>
+</body>
+</html>

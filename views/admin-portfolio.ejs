@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="icon" href="/img/Logo-Icon.png" type="image/png">
+</head>
+<body class="admin-body">
+  <div class="ambient-gradient"></div>
+  <div class="ambient-grid"></div>
+
+  <header>
+    <nav>
+      <div class="logo"><img src="/img/Logo-Icon.png" alt="ACED" class="logo-icon"> <span>Portfolio Admin</span></div>
+      <ul class="nav-links">
+        <li><a href="/">Home</a></li>
+        <li><a href="/portfolio">View Portfolio</a></li>
+        <li><a href="/admin/portfolio/new">Add New Project</a></li>
+        <li><a href="/admin/logout" class="admin-logout">Sign Out</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="content-section admin-shell">
+    <div class="admin-head">
+      <div>
+        <p class="eyebrow">Management</p>
+        <h1>Portfolio Management</h1>
+        <p>Upload new projects, refine existing ones, and keep your case studies fresh with milestones, obstacles, images, and video links.</p>
+      </div>
+      <a href="/admin/portfolio/new" class="btn btn-accent">Add New Project</a>
+    </div>
+
+    <div class="admin-grid">
+      <% projects.forEach((project) => { %>
+        <article class="admin-project-card">
+          <img src="<%= project.images[0] %>" alt="<%= project.title %>">
+          <div class="admin-project-content">
+            <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:0.4rem;">
+              <p class="project-chip"><%= project.category.replace(/-/g, ' ') %></p>
+              <% if (project.arm) { %>
+                <span class="arm-badge arm-badge-<%= project.arm %>"><%= project.arm %></span>
+              <% } %>
+            </div>
+            <h3><%= project.title %></h3>
+            <p><%= project.client || 'ACED Division' %></p>
+            <div class="admin-project-actions">
+              <a href="/portfolio/<%= project.slug %>" class="btn btn-secondary">Preview</a>
+              <a href="/admin/portfolio/<%= project.slug %>/edit" class="btn btn-primary">Edit</a>
+              <form action="/admin/portfolio/<%= project.slug %>/delete" method="post" onsubmit="return confirm('Delete this project?');">
+                <button type="submit" class="btn btn-danger">Delete</button>
+              </form>
+            </div>
+          </div>
+        </article>
+      <% }) %>
+    </div>
+  </section>
+</body>
+</html>
