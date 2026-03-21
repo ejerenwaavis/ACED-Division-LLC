@@ -11,43 +11,53 @@
   <div class="ambient-gradient"></div>
   <div class="ambient-grid"></div>
 
-  <header>
+  <header class="admin-page-header">
     <nav>
-      <div class="logo"><img src="/img/Logo-Icon.png" alt="ACED" class="logo-icon"> <span>Portfolio Admin</span></div>
+      <div class="logo"><img src="/img/Logo-Icon.png" alt="ACED" class="logo-icon"> <span>ACED Admin</span></div>
       <ul class="nav-links">
         <li><a href="/">Home</a></li>
-        <li><a href="/portfolio">View Portfolio</a></li>
-        <li><a href="/admin/portfolio/new">Add New Project</a></li>
-        <li><a href="/admin/logout" class="admin-logout">Sign Out</a></li>
+        <li><a href="/portfolio">Portfolio</a></li>
+        <li><a href="/admin/users">Users</a></li>
+        <li><a href="/admin/account">Account</a></li>
+        <li><a href="/admin/logout">Logout</a></li>
       </ul>
     </nav>
   </header>
 
-  <section class="content-section admin-shell">
-    <div class="admin-head">
+  <main class="admin-panel">
+    <header class="admin-panel-header">
       <div>
-        <p class="eyebrow">Management</p>
-        <h1>Portfolio Management</h1>
-        <p>Upload new projects, refine existing ones, and keep your case studies fresh with milestones, obstacles, images, and video links.</p>
+        <h1>Portfolio Admin Console</h1>
+        <p>Clean, modern workspace to oversee projects, user actions, and quality control.</p>
       </div>
-      <a href="/admin/portfolio/new" class="btn btn-accent">Add New Project</a>
-    </div>
+      <div class="admin-panel-actions">
+        <a href="/admin/logout" class="btn btn-secondary">Sign Out</a>
+        <a href="/admin/portfolio/new" class="btn btn-accent">Add New Project</a>
+      </div>
+    </header>
 
-    <div class="admin-grid">
+    <section class="admin-cards">
+      <% if (!projects.length) { %>
+        <div class="empty-state">
+          <h2>No portfolio projects yet</h2>
+          <p>Start by creating a new project with the button above.</p>
+        </div>
+      <% } %>
+
       <% projects.forEach((project) => { %>
-        <article class="admin-project-card">
-          <img src="<%= project.images[0] %>" alt="<%= project.title %>">
-          <div class="admin-project-content">
-            <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:0.4rem;">
-              <p class="project-chip"><%= project.category.replace(/-/g, ' ') %></p>
+        <article class="project-card">
+          <div class="project-card-image" style="background-image:url('<%= project.images[0] %>');"></div>
+          <div class="project-card-body">
+            <div class="project-tags">
+              <span class="chip"><%= project.category.replace(/-/g, ' ') %></span>
               <% if (project.arm) { %>
-                <span class="arm-badge arm-badge-<%= project.arm %>"><%= project.arm %></span>
+                <span class="chip"><%= project.arm %></span>
               <% } %>
             </div>
             <h3><%= project.title %></h3>
-            <p><%= project.client || 'ACED Division' %></p>
-            <div class="admin-project-actions">
-              <a href="/portfolio/<%= project.slug %>" class="btn btn-secondary">Preview</a>
+            <p class="muted"><%= project.client || 'ACED Division' %></p>
+            <div class="project-card-actions">
+              <a href="/portfolio/<%= project.slug %>" class="btn btn-outline">Preview</a>
               <a href="/admin/portfolio/<%= project.slug %>/edit" class="btn btn-primary">Edit</a>
               <form action="/admin/portfolio/<%= project.slug %>/delete" method="post" onsubmit="return confirm('Delete this project?');">
                 <button type="submit" class="btn btn-danger">Delete</button>
@@ -56,7 +66,12 @@
           </div>
         </article>
       <% }) %>
-    </div>
-  </section>
+    </section>
+
+    <section class="admin-grid-footer">
+      <a href="/admin/users" class="btn btn-outline">Manage Users</a>
+      <a href="/admin/account" class="btn btn-outline">Account Settings</a>
+    </section>
+  </main>
 </body>
 </html>

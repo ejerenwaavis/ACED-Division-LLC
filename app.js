@@ -4,6 +4,10 @@ const fs = require('fs');
 const multer = require('multer');
 const path = require('path');
 const session = require('express-session');
+const bcrypt = require('bcrypt');
+const speakeasy = require('speakeasy');
+const QRCode = require('qrcode');
+const { MongoClient, ObjectId } = require('mongodb');
 const { v2: cloudinary } = require('cloudinary');
 const { CloudinaryStorage } = require('multer-storage-cloudinary');
 const speakeasy = require('speakeasy');
@@ -19,8 +23,9 @@ const {
 } = require('./lib/portfolioStore');
 
 const app = express();
-const PORT = process.env.PORT || 3050;
+const PORT = parseInt(process.env.PORT, 10) || 3050;
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'aceddivision2026';
+const DISABLE_2FA = process.env.DISABLE_2FA === 'true'; // set in .env to bypass 2FA flow
 
 // ── Cloudinary / local storage ────────────────────────────────────────────────
 const useCloudinary = Boolean(
@@ -94,15 +99,109 @@ app.use((req, res, next) => {
   next();
 });
 
-// ── Admin auth middleware ─────────────────────────────────────────────────────
+// ── MongoDB & user account helpers ─────────────────────────────────────────────
+const MONGO_URI = process.env.MONGO_URI;
+const MONGO_DB = process.env.MONGO_DB_NAME || 'aceddivision';
+let mongoClient;
+let db;
+
+async function initMongo() {
+  if (!MONGO_URI) {
+    console.warn('MONGO_URI not set; starting in-memory mode');
+    return;
+  }
+  mongoClient = new MongoClient(MONGO_URI);
+  await mongoClient.connect();
+  db = mongoClient.db(MONGO_DB);
+  console.log(`Connected to MongoDB: ${MONGO_DB}`);
+
+  // Seed default admin if none exists
+  const adminEmail = process.env.SEED_ADMIN_EMAIL || 'admin@aceddivision.com';
+  const adminPassword = process.env.SEED_ADMIN_PASSWORD || 'Admin1234!';
+  const existingAdmin = await findUserByEmail(adminEmail);
+
+  if (!existingAdmin) {
+    const adminUser = await createUser(adminEmail, adminPassword, { twoFactorEnabled: false });
+    await setAdminFlag(adminUser._id, true);
+    console.log('==============================================================');
+    console.log('ADMIN SEED' );
+    console.log(`email: ${adminEmail}`);
+    console.log(`password: ${adminPassword}`);
+    console.log('2FA requires setup on first login via /auth/setup');
+    console.log('==============================================================');
+  } else {
+    console.log(`Admin account exists: ${adminEmail}`);
+  }
+}
+
+function getUserCollection() {
+  if (!db) throw new Error('MongoDB is not initialized. Set MONGO_URI in .env');
+  return db.collection('users');
+}
+
+async function findUserByEmail(email) {
+  return getUserCollection().findOne({ email: email.toLowerCase() });
+}
+
+async function findUserById(id) {
+  try {
+    return getUserCollection().findOne({ _id: new ObjectId(id) });
+  } catch (error) {
+    return null;
+  }
+}
+
+async function createUser(email, password, options = {}) {
+  const passwordHash = await bcrypt.hash(password, 12);
+  const secret = speakeasy.generateSecret({ name: `ACED Division (${email})`, length: 20 });
+  const user = {
+    email: email.toLowerCase(),
+    passwordHash,
+    isAdmin: false,
+    twoFactorEnabled: options.twoFactorEnabled || false,
+    twoFactorSecret: secret.base32,
+    createdAt: new Date(),
+  };
+  const { insertedId } = await getUserCollection().insertOne(user);
+  return { ...user, _id: insertedId };
+}
+
+async function setAdminFlag(userId, value) {
+  return getUserCollection().updateOne({ _id: new ObjectId(userId) }, { $set: { isAdmin: value } });
+}
+
+async function getTwoFactorSecretForUser(userId) {
+  const user = await findUserById(userId);
+  return user?.twoFactorSecret;
+}
+
 function requireAdmin(req, res, next) {
-  if (req.session && req.session.isAdmin && req.session.is2fa) {
-    return next();
+  if (!req.session || !req.session.userId || !req.session.isAdmin) {
+    return res.redirect('/');
   }
-  if (req.session && req.session.pending2FA) {
-    return res.redirect('/admin/2fa-verify');
+
+  if (!DISABLE_2FA && !req.session.twoFactorVerified) {
+    return res.redirect('/auth/login');
   }
-  return res.redirect('/admin/login');
+
+  return next();
+}
+
+function requireAuth(req, res, next) {
+  if (!req.session || !req.session.userId) {
+    return res.redirect('/');
+  }
+
+  if (!DISABLE_2FA && !req.session.twoFactorVerified) {
+    return res.redirect('/auth/login');
+  }
+
+  return next();
+}
+
+async function getCurrentUser(req) {
+  if (!req.session || !req.session.userId) return null;
+  return findUserById(req.session.userId);
 }
 
 // ── Helper utilities ──────────────────────────────────────────────────────────
@@ -298,76 +397,245 @@ app.get('/trades', (req, res) => {
   });
 });
 
-// ── Admin auth ────────────────────────────────────────────────────────────────
-app.get('/admin/login', (req, res) => {
-  if (req.session.isAdmin && req.session.is2fa) return res.redirect('/admin/portfolio');
-  res.render('admin-login', { title: 'Admin Login', error: null });
+// ── Authentication / user accounts ───────────────────────────────────────────
+app.get('/auth/register', (req, res) => {
+  res.render('auth-register', { title: 'Register', error: null });
 });
 
-app.post('/admin/login', (req, res) => {
+app.post('/auth/register', async (req, res) => {
+  const email = (req.body.email || '').trim();
   const password = (req.body.password || '').trim();
-  if (password === ADMIN_PASSWORD) {
-    req.session.pending2FA = true;
-    return res.redirect('/admin/2fa-verify');
+  if (!email || !password || password.length < 8) {
+    return res.status(400).render('auth-register', { title: 'Register', error: 'Email + password (8+ chars) required.' });
   }
 
-  res.render('admin-login', {
-    title: 'Admin Login',
-    error: 'Incorrect password. Please try again.',
-  });
-});
-
-app.get('/admin/logout', (req, res) => {
-  req.session.destroy(() => {
-    res.redirect('/admin/login');
-  });
-});
-
-app.get('/admin/2fa-setup', async (req, res) => {
-  const secret = getTwoFactorSecret();
-  try {
-    const qrCodeDataURL = await QRCode.toDataURL(secret.otpauth_url);
-    res.render('admin-2fa-setup', {
-      title: 'Admin 2FA Setup',
-      qrCodeDataURL,
-      secretBase32: secret.base32,
-    });
-  } catch (error) {
-    console.error('Failed to generate 2FA QR code:', error);
-    res.status(500).send('Failed to generate 2FA QR code.');
+  const existing = await findUserByEmail(email);
+  if (existing) {
+    return res.status(400).render('auth-register', { title: 'Register', error: 'Email already registered.' });
   }
+
+  const user = await createUser(email, password, { twoFactorEnabled: false });
+  req.session.userId = user._id.toString();
+  req.session.isAdmin = user.isAdmin;
+  req.session.twoFactorVerified = false;
+  req.session.pendingTwoFactor = false;
+  req.session.authState = 'register';
+
+  // New users must explicitly enable 2FA first
+  return res.redirect('/auth/setup');
 });
 
-app.get('/admin/2fa-verify', (req, res) => {
-  if (req.session.isAdmin && req.session.is2fa) return res.redirect('/admin/portfolio');
-  if (!req.session.pending2FA) return res.redirect('/admin/login');
-  res.render('admin-2fa', { title: '2FA Verification', error: null });
+app.get('/auth/login', (req, res) => {
+  res.render('auth-login', { title: 'Login', error: null });
 });
 
-app.post('/admin/2fa-verify', (req, res) => {
-  if (!req.session.pending2FA) return res.redirect('/admin/login');
+app.post('/auth/login', async (req, res) => {
+  const email = (req.body.email || '').trim();
+  const password = (req.body.password || '').trim();
+
+  const user = await findUserByEmail(email);
+  if (!user) {
+    return res.status(400).render('auth-login', { title: 'Login', error: 'Invalid credentials.' });
+  }
+
+  const valid = await bcrypt.compare(password, user.passwordHash);
+  if (!valid) {
+    return res.status(400).render('auth-login', { title: 'Login', error: 'Invalid credentials.' });
+  }
+
+  req.session.userId = user._id.toString();
+  req.session.isAdmin = user.isAdmin;
+
+  if (DISABLE_2FA) {
+    req.session.twoFactorVerified = true;
+    req.session.pendingTwoFactor = false;
+    return res.redirect(user.isAdmin ? '/admin/portfolio' : '/');
+  }
+
+  req.session.twoFactorVerified = false;
+  if (!user.twoFactorEnabled) {
+    req.session.pendingTwoFactor = false;
+    return res.redirect('/auth/setup');
+  }
+
+  req.session.pendingTwoFactor = true;
+  return res.redirect('/auth/2fa');
+});
+
+app.get('/auth/2fa', async (req, res) => {
+  if (DISABLE_2FA) {
+    return res.redirect('/');
+  }
+
+  if (!req.session.userId || !req.session.pendingTwoFactor) {
+    return res.redirect('/auth/login');
+  }
+
+  const user = await findUserById(req.session.userId);
+  if (!user) {
+    req.session.destroy();
+    return res.redirect('/auth/login');
+  }
+
+  if (!user.twoFactorEnabled) {
+    return res.redirect('/auth/setup');
+  }
+
+  res.render('auth-2fa', { title: 'Two-Factor Authentication', error: null });
+});
+
+app.post('/auth/2fa', async (req, res) => {
+  if (!req.session.userId || !req.session.pendingTwoFactor) {
+    return res.redirect('/auth/login');
+  }
+
+  const user = await findUserById(req.session.userId);
+  if (!user) {
+    req.session.destroy();
+    return res.redirect('/auth/login');
+  }
 
   const token = (req.body.token || '').trim();
-  const secret = getTwoFactorSecret();
-
-  const verified = speakeasy.totp.verify({
-    secret: secret.base32,
-    encoding: 'base32',
-    token,
-    window: 1,
-  });
+  const secret = user.twoFactorSecret;
+  const verified = speakeasy.totp.verify({ secret, encoding: 'base32', token, window: 1 });
 
   if (!verified) {
-    return res.status(401).render('admin-2fa', {
-      title: '2FA Verification',
+    return res.status(401).render('auth-2fa', { title: 'Two-Factor Authentication', error: 'Invalid code. Please try again.' });
+  }
+
+  req.session.pendingTwoFactor = false;
+  req.session.twoFactorVerified = true;
+  req.session.userId = user._id.toString();
+  req.session.isAdmin = user.isAdmin;
+  return res.redirect(user.isAdmin ? '/admin/portfolio' : '/');
+});
+
+app.get('/auth/setup', requireAuth, async (req, res) => {
+  if (DISABLE_2FA) {
+    return res.redirect('/');
+  }
+
+  const user = await findUserById(req.session.userId);
+  if (!user) {
+    req.session.destroy();
+    return res.redirect('/auth/login');
+  }
+
+  if (user.twoFactorEnabled) {
+    return res.redirect('/auth/2fa');
+  }
+
+  const otpAuthUrl = `otpauth://totp/ACED%20Division:${user.email}?secret=${user.twoFactorSecret}&issuer=ACED%20Division`;
+  const qrCodeDataURL = await QRCode.toDataURL(otpAuthUrl);
+
+  res.render('auth-setup', {
+    title: 'Set up Two-Factor Authentication',
+    qrCodeDataURL,
+    secret: user.twoFactorSecret,
+    error: null,
+  });
+});
+
+app.post('/auth/setup', requireAuth, async (req, res) => {
+  const user = await findUserById(req.session.userId);
+  if (!user) {
+    req.session.destroy();
+    return res.redirect('/auth/login');
+  }
+
+  const token = (req.body.token || '').trim();
+  const verified = speakeasy.totp.verify({ secret: user.twoFactorSecret, encoding: 'base32', token, window: 1 });
+
+  if (!verified) {
+    const otpAuthUrl = `otpauth://totp/ACED%20Division:${user.email}?secret=${user.twoFactorSecret}&issuer=ACED%20Division`;
+    const qrCodeDataURL = await QRCode.toDataURL(otpAuthUrl);
+    return res.status(400).render('auth-setup', {
+      title: 'Set up Two-Factor Authentication',
+      qrCodeDataURL,
+      secret: user.twoFactorSecret,
       error: 'Invalid code. Please try again.',
     });
   }
 
-  req.session.isAdmin = true;
-  req.session.is2fa = true;
-  req.session.pending2FA = false;
-  return res.redirect('/admin/portfolio');
+  await getUserCollection().updateOne({ _id: user._id }, { $set: { twoFactorEnabled: true } });
+  req.session.twoFactorVerified = true;
+  req.session.pendingTwoFactor = false;
+  return res.redirect(user.isAdmin ? '/admin/portfolio' : '/');
+});
+
+app.get('/auth/logout', (req, res) => {
+  req.session.destroy(() => res.redirect('/auth/login'));
+});
+
+// backward compatibility routes
+app.get('/admin/login', (req, res) => res.redirect('/auth/login'));
+app.get('/admin/logout', (req, res) => res.redirect('/auth/logout'));
+
+// ── Admin user management ─────────────────────────────────────────────────────
+app.get('/admin/users', requireAdmin, async (req, res) => {
+  const users = await getUserCollection().find({}, { projection: { passwordHash: 0, twoFactorSecret: 0 } }).toArray();
+  res.render('admin-users', { title: 'User Management', users });
+});
+
+app.post('/admin/users/:id/promote', requireAdmin, async (req, res) => {
+  const userId = req.params.id;
+  const userToPromote = await findUserById(userId);
+
+  if (!userToPromote) {
+    const users = await getUserCollection().find({}, { projection: { passwordHash: 0, twoFactorSecret: 0 } }).toArray();
+    return res.render('admin-users', { title: 'User Management', users, message: null, error: 'User not found.' });
+  }
+
+  if (!userToPromote.twoFactorEnabled) {
+    const users = await getUserCollection().find({}, { projection: { passwordHash: 0, twoFactorSecret: 0 } }).toArray();
+    return res.render('admin-users', { title: 'User Management', users, message: null, error: 'User must have 2FA enabled before promotion.' });
+  }
+
+  await setAdminFlag(userId, true);
+  const users = await getUserCollection().find({}, { projection: { passwordHash: 0, twoFactorSecret: 0 } }).toArray();
+  return res.render('admin-users', { title: 'User Management', users, message: 'User promoted to admin.', error: null });
+});
+
+app.get('/admin/account', requireAdmin, async (req, res) => {
+  const user = await getCurrentUser(req);
+  if (!user) return res.redirect('/');
+
+  res.render('admin-account', { title: 'Account Settings', user, message: null, error: null });
+});
+
+app.post('/admin/account/password', requireAuth, async (req, res) => {
+  const user = await getCurrentUser(req);
+  if (!user) return res.redirect('/auth/login');
+
+  const oldPassword = (req.body.oldPassword || '').trim();
+  const newPassword = (req.body.newPassword || '').trim();
+  const confirmPassword = (req.body.confirmPassword || '').trim();
+
+  if (!oldPassword || !newPassword || newPassword.length < 8 || newPassword !== confirmPassword) {
+    return res.render('admin-account', { title: 'Account Settings', user, message: null, error: 'Passwords must match and be 8+ chars.' });
+  }
+
+  const validOld = await bcrypt.compare(oldPassword, user.passwordHash);
+  if (!validOld) {
+    return res.render('admin-account', { title: 'Account Settings', user, message: null, error: 'Old password does not match.' });
+  }
+
+  const passwordHash = await bcrypt.hash(newPassword, 12);
+  await getUserCollection().updateOne({ _id: user._id }, { $set: { passwordHash } });
+  return res.render('admin-account', { title: 'Account Settings', user, message: 'Password updated successfully.', error: null });
+});
+
+app.post('/admin/account/2fa-toggle', requireAuth, async (req, res) => {
+  const user = await getCurrentUser(req);
+  if (!user) return res.redirect('/auth/login');
+
+  const enable = req.body.enable === 'true';
+  await getUserCollection().updateOne({ _id: user._id }, { $set: { twoFactorEnabled: enable } });
+
+  if (enable) {
+    return res.render('admin-account', { title: 'Account Settings', user: { ...user, twoFactorEnabled: true }, message: '2FA has been enabled.', error: null });
+  }
+  return res.render('admin-account', { title: 'Account Settings', user: { ...user, twoFactorEnabled: false }, message: '2FA has been disabled.', error: null });
 });
 
 // ── Admin portfolio ───────────────────────────────────────────────────────────
@@ -474,4 +742,9 @@ const startServer = (port) => {
   });
 };
 
-startServer(PORT);
+initMongo().then(() => {
+  startServer(PORT);
+}).catch((error) => {
+  console.error('Failed to initialize MongoDB:', error);
+  process.exit(1);
+});

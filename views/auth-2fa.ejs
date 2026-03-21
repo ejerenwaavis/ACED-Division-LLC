@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="icon" href="/img/Logo-Icon.png" type="image/png">
+</head>
+<body>
+  <div class="ambient-gradient"></div>
+  <div class="ambient-diagonal"></div>
+
+  <div class="login-shell">
+    <div class="login-card">
+      <img src="/img/Logo-Icon.png" alt="ACED Division" class="logo-icon">
+      <h1>Two-Factor Authentication</h1>
+      <p>Enter your 6-digit authenticator code.</p>
+
+      <% if (error) { %>
+        <div class="login-error"><%= error %></div>
+      <% } %>
+
+      <form id="admin-2fa-form" action="/auth/2fa" method="post" class="auth-form-wrapper">
+        <input
+          id="admin-2fa-token"
+          class="admin-otp-input"
+          type="tel"
+          name="token"
+          placeholder="------"
+          pattern="^[0-9]{6}$"
+          inputmode="numeric"
+          autocomplete="one-time-code"
+          maxlength="6"
+          required
+          autofocus
+        >
+        <button id="admin-2fa-submit" type="submit" class="btn btn-accent" style="justify-content:center;">
+          Verify Code
+        </button>
+      </form>
+
+      <p style="margin-top:1.4rem; font-size:0.84rem;">
+        <a href="/auth/login">← Back to login</a>
+      </p>
+    </div>
+  </div>
+
+  <script>
+    const tokenInput = document.getElementById('admin-2fa-token');
+    const form = document.getElementById('admin-2fa-form');
+
+    tokenInput.addEventListener('input', (e) => {
+      let onlyDigits = e.target.value.replace(/\D/g, '');
+      onlyDigits = onlyDigits.slice(0, 6);
+      e.target.value = onlyDigits;
+
+      if (onlyDigits.length < 6) {
+        tokenInput.classList.add('otp-incomplete');
+      } else {
+        tokenInput.classList.remove('otp-incomplete');
+      }
+    });
+
+    form.addEventListener('submit', (e) => {
+      if (!/^\d{6}$/.test(tokenInput.value)) {
+        e.preventDefault();
+        tokenInput.classList.add('input-error');
+        tokenInput.focus();
+      }
+    });
+
+    tokenInput.addEventListener('keydown', () => {
+      tokenInput.classList.remove('input-error');
+    });
+  </script>
+</body>
+</html>
