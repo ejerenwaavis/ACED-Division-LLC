@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="icon" href="/img/Logo-Icon.png" type="image/png">
+</head>
+<body>
+  <div class="ambient-gradient"></div>
+  <div class="ambient-diagonal"></div>
+
+  <section class="content-section">
+    <div class="container">
+      <h1>User Management</h1>
+      <% if (message) { %>
+        <div style="background:#ddf0d9; color:#1e572e; padding:0.8rem; border-radius:8px; margin-bottom:1rem;"><%= message %></div>
+      <% } %>
+      <% if (error) { %>
+        <div style="background:#ffe1e1; color:#8a1c1c; padding:0.8rem; border-radius:8px; margin-bottom:1rem;"><%= error %></div>
+      <% } %>
+      <table style="width:100%; border-collapse: collapse; margin-top:1rem;">
+        <thead>
+          <tr>
+            <th style="text-align:left; padding:0.5rem; border-bottom:2px solid #ddd;">Email</th>
+            <th style="text-align:left; padding:0.5rem; border-bottom:2px solid #ddd;">Admin</th>
+            <th style="text-align:left; padding:0.5rem; border-bottom:2px solid #ddd;">2FA</th>
+            <th style="text-align:left; padding:0.5rem; border-bottom:2px solid #ddd;">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% users.forEach((user) => { %>
+            <tr>
+              <td style="padding:0.5rem; border-bottom:1px solid #eee;"><%= user.email %></td>
+              <td style="padding:0.5rem; border-bottom:1px solid #eee;"><%= user.isAdmin ? 'Yes' : 'No' %></td>
+              <td style="padding:0.5rem; border-bottom:1px solid #eee;"><%= user.twoFactorEnabled ? 'Enabled' : 'Disabled' %></td>
+              <td style="padding:0.5rem; border-bottom:1px solid #eee;">
+                <% if (!user.isAdmin) { %>
+                  <form action="/admin/users/<%= user._id %>/promote" method="post" style="display:inline-block;">
+                    <button type="submit" class="btn btn-accent" <%= user.twoFactorEnabled ? '' : 'disabled style="opacity:0.4; cursor:not-allowed;"' %>>Promote to Admin</button>
+                  </form>
+                <% } else { %>
+                  —
+                <% } %>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+      <p style="margin-top:1rem;"><a href="/admin/portfolio">← Back to portfolio</a></p>
+    </div>
+  </section>
+</body>
+</html>

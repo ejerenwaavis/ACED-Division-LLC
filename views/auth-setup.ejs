@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="icon" href="/img/Logo-Icon.png" type="image/png">
+</head>
+<body>
+  <div class="ambient-gradient"></div>
+  <div class="ambient-diagonal"></div>
+
+  <div class="login-shell">
+    <div class="login-card">
+      <img src="/img/Logo-Icon.png" alt="ACED Division" class="logo-icon">
+      <h1>2FA Setup Required</h1>
+      <p>Scan this code with your authenticator app then enter the 6-digit token.</p>
+
+      <% if (error) { %>
+        <div class="login-error"><%= error %></div>
+      <% } %>
+
+      <div style="text-align:center;"><img src="<%= qrCodeDataURL %>" alt="2FA QR Code" style="max-width: 210px; margin: 0 auto;" /></div>
+      <div style="margin: 0.8rem 0; color:#fff;">Manual key: <strong><%= secret %></strong></div>
+
+      <form action="/auth/setup" method="post">
+        <input class="form-control" type="tel" name="token" placeholder="Enter code" inputmode="numeric" pattern="\d{6}" maxlength="6" required>
+        <button type="submit" class="btn btn-accent">Confirm 2FA</button>
+      </form>
+
+      <p style="margin-top:1.4rem; font-size:0.84rem;"><a href="/auth/logout">Start over</a></p>
+    </div>
+  </div>
+</body>
+</html>

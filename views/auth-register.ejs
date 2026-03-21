@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="icon" href="/img/Logo-Icon.png" type="image/png">
+</head>
+<body>
+  <div class="ambient-gradient"></div>
+  <div class="ambient-diagonal"></div>
+
+  <div class="login-shell">
+    <div class="login-card">
+      <img src="/img/Logo-Icon.png" alt="ACED Division" class="logo-icon">
+      <h1>Register</h1>
+      <% if (error) { %>
+        <div class="login-error"><%= error %></div>
+      <% } %>
+      <form action="/auth/register" method="post" class="auth-form-wrapper">
+        <input class="form-control" type="email" name="email" placeholder="Email" autocomplete="username" required>
+        <input class="form-control" type="password" name="password" placeholder="Password (8+ chars)" autocomplete="new-password" required>
+        <button type="submit" class="btn btn-accent">Create Account</button>
+      </form>
+      <p style="margin-top:1rem; font-size:0.9rem;">
+        <a href="/auth/login">Already have account?</a> · <a href="/">Back to site</a>
+      </p>
+    </div>
+  </div>
+</body>
+</html>

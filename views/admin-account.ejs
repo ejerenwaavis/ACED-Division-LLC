@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="icon" href="/img/Logo-Icon.png" type="image/png">
+</head>
+<body>
+  <div class="ambient-gradient"></div>
+  <div class="ambient-diagonal"></div>
+
+  <section class="content-section">
+    <div class="login-card" style="margin:auto;max-width:480px; padding:2rem;">
+      <h1>Account Settings</h1>
+      <p style="color: #444; margin-bottom: 0.8rem;">Logged in as <strong><%= user.email %></strong> | Admin: <%= user.isAdmin ? 'Yes' : 'No' %></p>
+
+      <% if (message) { %>
+        <div style="background:#ddf0d9; color:#1e572e; padding:0.8rem; border-radius:8px; margin-bottom:1rem;"><%= message %></div>
+      <% } %>
+      <% if (error) { %>
+        <div style="background:#ffe1e1; color:#8a1c1c; padding:0.8rem; border-radius:8px; margin-bottom:1rem;"><%= error %></div>
+      <% } %>
+
+      <h2>Password</h2>
+      <form action="/admin/account/password" method="post" class="auth-form-wrapper">
+        <input class="form-control" type="password" name="oldPassword" placeholder="Current password" required>
+        <input class="form-control" type="password" name="newPassword" placeholder="New password (8+ chars)" required>
+        <input class="form-control" type="password" name="confirmPassword" placeholder="Confirm new password" required>
+        <button class="btn btn-accent" type="submit">Update Password</button>
+      </form>
+
+      <h2 style="margin-top:1.5rem;">Two-Factor Authentication</h2>
+      <div style="margin-bottom: 0.8rem;">2FA currently is <strong><%= user.twoFactorEnabled ? 'Enabled' : 'Disabled' %></strong></div>
+
+      <form action="/admin/account/2fa-toggle" method="post" class="auth-form-wrapper">
+        <input type="hidden" name="enable" value="<%= user.twoFactorEnabled ? 'false' : 'true' %>">
+        <button class="btn btn-accent" type="submit"><%= user.twoFactorEnabled ? 'Disable 2FA' : 'Enable 2FA' %></button>
+      </form>
+
+      <div class="auth-small-text">For best security, enable 2FA and keep your password strong.</div>
+      <div style="margin-top:1rem;"><a href="/admin/portfolio">← Back to admin</a></div>
+    </div>
+  </section>
+</body>
+</html>
