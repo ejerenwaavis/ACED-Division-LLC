@@ -187,6 +187,10 @@ nav {
   overflow: hidden;
 }
 
+.content-section {
+  padding-top: 20px;
+}
+
 /* Diagonal accent shape behind hero */
 .hero::after,
 .landing-hero::after {
