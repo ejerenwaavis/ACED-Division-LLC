@@ -365,6 +365,13 @@ app.get('/privacy-policy', (req, res) => {
 });
 
 // ── Server ────────────────────────────────────────────────────────────────────
+//-server health check
+app.get('/health', (req, res) => {
+  res.status(200).json({ status: 'ok', timestamp: new Date().toISOString(), appName: 'ACED Portfolio Server' });
+});
+
+
+//-server start with dynamic port handling
 const startServer = (port) => {
   const server = app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);

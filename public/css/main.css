@@ -182,10 +182,26 @@ nav {
   position: relative;
   text-align: center;
   padding: 5.6rem 2rem;
-  max-width: 1240px;
+  max-width: max(1240px, 90%);
   margin: 0 auto;
   overflow: hidden;
+  
 }
+
+.landing-hero {
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 1240px;
+}
+
+.landing-hero h1,
+.landing-hero p,
+.landing-hero .cta-buttons {
+  margin-left: auto;
+  margin-right: auto;
+}
+
 
 .content-section {
   padding-top: 20px;
@@ -213,7 +229,7 @@ nav {
 /* Arm page path label above hero */
 .arm-eyebrow {
   font-size: 0.7rem;
-  font-weight: 700;
+  /* font-weight: 700; */
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--text-light);
@@ -257,13 +273,14 @@ nav {
 .landing-hero h1 {
   max-width: 980px;
   animation: fadeInUp 0.7s ease;
+  margin: 0 auto 1.0rem;
 }
 
 .hero-subtitle,
 .landing-hero p {
-  font-size: 1.2rem;
+  /* font-size: 1.2rem; */
   max-width: 860px;
-  margin: 0 auto 1.4rem;
+  margin: 0 auto 1.0rem;
   color: #626b7a;
   animation: fadeInUp 0.9s ease;
 }
@@ -355,7 +372,7 @@ nav {
 .max-w-container {
   max-width: 1240px;
   margin: 0 auto;
-  padding: 0 2rem;
+  padding: 3rem 2rem 0 2rem;
 }
 
 .services {
