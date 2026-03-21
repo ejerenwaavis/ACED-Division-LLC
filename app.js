@@ -10,8 +10,6 @@ const QRCode = require('qrcode');
 const { MongoClient, ObjectId } = require('mongodb');
 const { v2: cloudinary } = require('cloudinary');
 const { CloudinaryStorage } = require('multer-storage-cloudinary');
-const speakeasy = require('speakeasy');
-const QRCode = require('qrcode');
 
 const {
   listProjects,
