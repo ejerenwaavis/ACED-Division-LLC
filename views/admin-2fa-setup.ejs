@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="icon" href="/img/Logo-Icon.png" type="image/png">
+</head>
+<body>
+  <div class="ambient-gradient"></div>
+  <div class="ambient-diagonal"></div>
+
+  <div class="login-shell">
+    <div class="login-card" style="max-width: 460px;">
+      <img src="/img/Logo-Icon.png" alt="ACED Division" class="logo-icon">
+      <h1>Set up Two-Factor Authentication</h1>
+      <p>Use your authenticator app (Google Authenticator, Authy, etc.) with this code.</p>
+
+      <div class="admin-2fa-box">
+        <img src="<%= qrCodeDataURL %>" alt="2FA QR Code" style="max-width:100%; height:auto;" />
+        <p style="margin:12px 0 4px;">Manual code (if QR scan not available):</p>
+        <strong><%= secretBase32 %></strong>
+      </div>
+
+      <p style="font-size:0.9rem; color:#fff;">
+        After scanning the QR code, complete login at the admin page with your password and then verification code.
+      </p>
+
+      <p style="margin-top:1.4rem; font-size:0.84rem;">
+        <a href="/admin/login">Go to admin login</a>
+      </p>
+    </div>
+  </div>
+</body>
+</html>

@@ -6,6 +6,8 @@ const path = require('path');
 const session = require('express-session');
 const { v2: cloudinary } = require('cloudinary');
 const { CloudinaryStorage } = require('multer-storage-cloudinary');
+const speakeasy = require('speakeasy');
+const QRCode = require('qrcode');
 
 const {
   listProjects,
@@ -94,8 +96,11 @@ app.use((req, res, next) => {
 
 // ── Admin auth middleware ─────────────────────────────────────────────────────
 function requireAdmin(req, res, next) {
-  if (req.session && req.session.isAdmin) {
+  if (req.session && req.session.isAdmin && req.session.is2fa) {
     return next();
+  }
+  if (req.session && req.session.pending2FA) {
+    return res.redirect('/admin/2fa-verify');
   }
   return res.redirect('/admin/login');
 }
@@ -192,6 +197,40 @@ const categories = [
   'trading-systems',
 ];
 
+const ADMIN_CONFIG_PATH = path.join(__dirname, 'data', 'admin.json');
+
+function loadAdminConfig() {
+  try {
+    if (!fs.existsSync(ADMIN_CONFIG_PATH)) {
+      return {};
+    }
+    return JSON.parse(fs.readFileSync(ADMIN_CONFIG_PATH, 'utf-8')) || {};
+  } catch (error) {
+    console.error('Failed to read admin config:', error);
+    return {};
+  }
+}
+
+function saveAdminConfig(config) {
+  try {
+    fs.mkdirSync(path.dirname(ADMIN_CONFIG_PATH), { recursive: true });
+    fs.writeFileSync(ADMIN_CONFIG_PATH, JSON.stringify(config, null, 2), 'utf-8');
+  } catch (error) {
+    console.error('Failed to save admin config:', error);
+  }
+}
+
+let adminConfig = loadAdminConfig();
+if (!adminConfig.twoFactorSecret) {
+  const generated = speakeasy.generateSecret({ name: 'ACED Division Admin', length: 20 });
+  adminConfig.twoFactorSecret = generated;
+  saveAdminConfig(adminConfig);
+}
+
+function getTwoFactorSecret() {
+  return adminConfig.twoFactorSecret;
+}
+
 // ── Public routes ─────────────────────────────────────────────────────────────
 app.get('/', (req, res) => {
   if (req.site !== 'master') {
@@ -261,16 +300,17 @@ app.get('/trades', (req, res) => {
 
 // ── Admin auth ────────────────────────────────────────────────────────────────
 app.get('/admin/login', (req, res) => {
-  if (req.session.isAdmin) return res.redirect('/admin/portfolio');
+  if (req.session.isAdmin && req.session.is2fa) return res.redirect('/admin/portfolio');
   res.render('admin-login', { title: 'Admin Login', error: null });
 });
 
 app.post('/admin/login', (req, res) => {
   const password = (req.body.password || '').trim();
   if (password === ADMIN_PASSWORD) {
-    req.session.isAdmin = true;
-    return res.redirect('/admin/portfolio');
+    req.session.pending2FA = true;
+    return res.redirect('/admin/2fa-verify');
   }
+
   res.render('admin-login', {
     title: 'Admin Login',
     error: 'Incorrect password. Please try again.',
@@ -278,8 +318,56 @@ app.post('/admin/login', (req, res) => {
 });
 
 app.get('/admin/logout', (req, res) => {
-  req.session.destroy();
-  res.redirect('/admin/login');
+  req.session.destroy(() => {
+    res.redirect('/admin/login');
+  });
+});
+
+app.get('/admin/2fa-setup', async (req, res) => {
+  const secret = getTwoFactorSecret();
+  try {
+    const qrCodeDataURL = await QRCode.toDataURL(secret.otpauth_url);
+    res.render('admin-2fa-setup', {
+      title: 'Admin 2FA Setup',
+      qrCodeDataURL,
+      secretBase32: secret.base32,
+    });
+  } catch (error) {
+    console.error('Failed to generate 2FA QR code:', error);
+    res.status(500).send('Failed to generate 2FA QR code.');
+  }
+});
+
+app.get('/admin/2fa-verify', (req, res) => {
+  if (req.session.isAdmin && req.session.is2fa) return res.redirect('/admin/portfolio');
+  if (!req.session.pending2FA) return res.redirect('/admin/login');
+  res.render('admin-2fa', { title: '2FA Verification', error: null });
+});
+
+app.post('/admin/2fa-verify', (req, res) => {
+  if (!req.session.pending2FA) return res.redirect('/admin/login');
+
+  const token = (req.body.token || '').trim();
+  const secret = getTwoFactorSecret();
+
+  const verified = speakeasy.totp.verify({
+    secret: secret.base32,
+    encoding: 'base32',
+    token,
+    window: 1,
+  });
+
+  if (!verified) {
+    return res.status(401).render('admin-2fa', {
+      title: '2FA Verification',
+      error: 'Invalid code. Please try again.',
+    });
+  }
+
+  req.session.isAdmin = true;
+  req.session.is2fa = true;
+  req.session.pending2FA = false;
+  return res.redirect('/admin/portfolio');
 });
 
 // ── Admin portfolio ───────────────────────────────────────────────────────────

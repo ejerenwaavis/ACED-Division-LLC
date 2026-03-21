@@ -1,0 +1,8 @@
+{
+  "twoFactorSecret": {
+    "ascii": ")DmEBWDPZTcU>lPxz?%C",
+    "hex": "29446d45425744505a5463553e6c50787a3f2543",
+    "base32": "FFCG2RKCK5CFAWSUMNKT43CQPB5D6JKD",
+    "otpauth_url": "otpauth://totp/ACED%20Division%20Admin?secret=FFCG2RKCK5CFAWSUMNKT43CQPB5D6JKD"
+  }
+}

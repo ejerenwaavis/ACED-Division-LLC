@@ -33,6 +33,56 @@ body {
   position: relative;
 }
 
+#admin-2fa-form {
+  width: 100%;
+  max-width: 320px;
+  margin: 0 auto 1rem;
+}
+
+#admin-2fa-form .admin-otp-input,
+#admin-2fa-form button {
+  width: 100%;
+  max-width: 320px;
+  display: block;
+}
+
+.admin-otp-input {
+  width: 100%;
+  max-width: 320px;
+  margin: 0.8rem auto 1.0rem;
+  display: block;
+  padding: 0.8rem 1rem;
+  border-radius: 10px;
+  border: 2px solid #f0ad4e;
+  background: rgba(255, 255, 255, 0.15);
+  color: #444;
+  font-size: 1.4rem;
+  font-weight: 700;
+  text-align: center;
+  letter-spacing: 0.3rem;
+  box-shadow: 0 0 10px rgba(255, 205, 0, 0.2);
+}
+
+.admin-otp-input:focus {
+  outline: none;
+  border-color: #ffd700;
+  box-shadow: 0 0 14px rgba(255, 215, 0, 0.45);
+}
+
+.admin-otp-input::placeholder {
+  color: #999;
+  letter-spacing: 0.45rem;
+}
+
+.admin-otp-input.otp-incomplete {
+  color: #444;
+}
+
+.input-error {
+  border-color: #e74c3c !important;
+  box-shadow: 0 0 10px rgba(231, 76, 60, 0.5) !important;
+}
+
 .ambient-gradient,
 .ambient-grid {
   pointer-events: none;
