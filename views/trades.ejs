@@ -4,201 +4,141 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><%= title %></title>
-  <link rel="stylesheet" href="/css/aceddivision-main.css">
-  <link rel="icon" href="/img/aceddivision-Logo-Icon.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/aceddivision-v2.css">
+  <link rel="icon" href="/img/aceddivision-Logo-Icon-Gold.png" type="image/png">
 </head>
 <body>
-  <div class="ambient-gradient"></div>
-  <div class="ambient-diagonal"></div>
 
-  <%- include('partials/navbar') %>
+  <%- include('partials/navbar-v2') %>
 
-  <section class="landing-hero">
-    <p class="arm-eyebrow">ACED Trades · Financial Markets</p>
-    <h1>Market Intelligence Built on<br>Discipline, Not Guesswork.</h1>
-    <p>Strategy frameworks, risk-aware execution models, and trading systems designed for futures and forex environments where precision is the only acceptable standard.</p>
-    <div class="cta-buttons">
-      <a href="#expertise" class="btn btn-primary">Explore Framework</a>
-      <a href="#portfolio" class="btn btn-secondary">See Trading Systems</a>
-      <a href="mailto:support@aceddivision.com" class="btn btn-accent">Start a Conversation</a>
-    </div>
-    <div class="capability-strip">
-      <div class="capability-strip-inner">
-        <span>FOREX TRADING</span><span>·</span>
-        <span>FUTURES MARKETS</span><span>·</span>
-        <span>RISK MANAGEMENT</span><span>·</span>
-        <span>MARKET ANALYSIS</span><span>·</span>
-        <span>TRADING SYSTEMS</span><span>·</span>
-        <span>STRATEGY COACHING</span><span>·</span>
-        <span>EXECUTION FRAMEWORKS</span><span>·</span>
-        <span>FOREX TRADING</span><span>·</span>
-        <span>FUTURES MARKETS</span><span>·</span>
-        <span>RISK MANAGEMENT</span><span>·</span>
-        <span>MARKET ANALYSIS</span><span>·</span>
-        <span>TRADING SYSTEMS</span><span>·</span>
-        <span>STRATEGY COACHING</span><span>·</span>
-        <span>EXECUTION FRAMEWORKS</span>
+  <section class="hero" id="heroSection">
+    <div class="aurora"><span class="a1"></span><span class="a2"></span><span class="a3"></span></div>
+    <div class="spotlight" id="spotlight"></div>
+    <div class="grain"></div>
+    <img class="watermark" src="/img/aceddivision-Logo-Icon-OnDark.png" alt="">
+    
+    <div class="hero-content reveal">
+      <p class="eyebrow">ACED TRADES · FINANCIAL MARKETS</p>
+      <h1>Intelligence for<br><em>Disciplined Execution</em>.</h1>
+      <p class="sub">Market strategy, risk-aware frameworks, and technical execution support across futures and forex environments.</p>
+      <div class="hero-cta">
+        <a href="#services" class="btn btn-primary">Explore Services</a>
+        <a href="#portfolio" class="btn btn-ghost">See Market Work</a>
       </div>
+    </div>
+    
+    <div class="scroll-cue">
+      SCROLL<div class="line"></div>
     </div>
   </section>
 
-  <section class="trust-strip">
-    <div class="trust-item">
-      <h3>Multi-Market Experience</h3>
-      <p>Forex pairs, futures contracts, and commodity instruments</p>
+  <div class="marquee reveal">
+    <div class="marquee-track">
+      <span>FUTURES TRADING</span><span>FOREX MARKETS</span>
+      <span>RISK MANAGEMENT</span><span>TECHNICAL ANALYSIS</span>
+      <span>ALGORITHMIC MODELS</span><span>JOURNALING SYSTEMS</span>
+      <span>TRADE PSYCHOLOGY</span>
+      <span>FUTURES TRADING</span><span>FOREX MARKETS</span>
+      <span>RISK MANAGEMENT</span><span>TECHNICAL ANALYSIS</span>
+      <span>ALGORITHMIC MODELS</span><span>JOURNALING SYSTEMS</span>
+      <span>TRADE PSYCHOLOGY</span>
     </div>
-    <div class="trust-item">
-      <h3>Risk-First Framework</h3>
-      <p>Capital preservation is the foundation of every strategy</p>
-    </div>
-    <div class="trust-item">
-      <h3>Data-Driven Decisions</h3>
-      <p>Every entry, exit, and position size backed by analysis</p>
-    </div>
-  </section>
+  </div>
 
-  <section class="numbered-list" id="expertise">
-    <h2>Four things every serious trader knows.</h2>
-    <div class="numbered-items">
-      <div class="numbered-item">
-        <span class="numbered-item-num">01</span>
-        <div>
-          <h3>Emotion is the enemy of execution</h3>
-          <p>Without a rules-based framework, every decision under pressure is a gamble. The market rewards those who've already decided how they'll act before the candle closes.</p>
-        </div>
-      </div>
-      <div class="numbered-item">
-        <span class="numbered-item-num">02</span>
-        <div>
-          <h3>Risk management determines longevity</h3>
-          <p>A great entry means nothing if position sizing destroys the account on the inevitable losing streak. Consistent profits come from controlled losses, not lucky wins.</p>
-        </div>
-      </div>
-      <div class="numbered-item">
-        <span class="numbered-item-num">03</span>
-        <div>
-          <h3>Strategy without backtesting is speculation</h3>
-          <p>Trading a setup you've never validated is hope disguised as strategy. Conviction comes from data — how the setup performs across hundreds of occurrences.</p>
-        </div>
-      </div>
-      <div class="numbered-item">
-        <span class="numbered-item-num">04</span>
-        <div>
-          <h3>Most traders over-trade their account</h3>
-          <p>Chasing setups, forcing trades, and holding losers too long — the discipline to sit on hands is often the most profitable skill in a trader's arsenal.</p>
-        </div>
-      </div>
-    </div>
-  </section>
+  <%- include('partials/stat-panel') %>
 
-  <section class="content-section" style="padding-top:0;">
-    <h2 style="margin-bottom:2rem;">Our trading framework, applied.</h2>
-    <div class="content-grid">
-      <div class="content-item">
-        <h3>💱 Forex Strategy Systems</h3>
-        <p>Rules-based forex frameworks covering entry criteria, stop placement, take-profit levels, and session-based execution patterns.</p>
+  <section class="work" id="services">
+    <div class="reveal">
+      <span class="eyebrow" style="margin-bottom:18px;">Capabilities</span>
+      <h2 style="font-family:'Fraunces',serif; font-size:42px; font-weight:400;">Systems that navigate volatility.</h2>
+    </div>
+    
+    <div class="work-grid">
+      <div class="work-card reveal" style="transition-delay:0.1s;">
+        <span class="tag">FUTURES</span>
+        <h3>Futures Execution</h3>
+        <p>Strategic approaches and execution frameworks specifically tailored for NQ and ES futures markets.</p>
       </div>
-      <div class="content-item">
-        <h3>📊 Futures Market Analysis</h3>
-        <p>Expert guidance across commodity, index, and interest rate futures — with structured approaches to position management and contract selection.</p>
+      <div class="work-card reveal" style="transition-delay:0.2s;">
+        <span class="tag">FOREX</span>
+        <h3>Forex Markets</h3>
+        <p>Analysis and disciplined trading strategies navigating major and minor currency pairs in global forex markets.</p>
       </div>
-      <div class="content-item">
-        <h3>⚠️ Risk Management Systems</h3>
-        <p>Position sizing models, drawdown rules, and capital allocation frameworks that protect your account and support consistent compounding.</p>
+      <div class="work-card reveal" style="transition-delay:0.3s;">
+        <span class="tag">RISK</span>
+        <h3>Risk Management</h3>
+        <p>Comprehensive risk-aware frameworks prioritizing capital preservation and structured position sizing.</p>
       </div>
-      <div class="content-item">
-        <h3>📈 Technical & Fundamental Analysis</h3>
-        <p>In-depth market analysis providing actionable bias and confluences — combining price structure, volume, and macro context.</p>
+      <div class="work-card reveal" style="transition-delay:0.1s;">
+        <span class="tag">TECH</span>
+        <h3>Technical Analysis</h3>
+        <p>Deep chart analysis, market structure mapping, and data-driven insights to identify high-probability setups.</p>
       </div>
-      <div class="content-item">
-        <h3>🎯 Strategy Coaching</h3>
-        <p>Personalised strategy sessions tailored to your trading style, risk tolerance, and capital objectives — with real accountability checkpoints.</p>
+      <div class="work-card reveal" style="transition-delay:0.2s;">
+        <span class="tag">ALGO</span>
+        <h3>Algorithmic Models</h3>
+        <p>Development of quantitative models and automated alerts integrating trading logic with software engineering.</p>
       </div>
-      <div class="content-item">
-        <h3>⚙️ Algorithmic & Systematic Tools</h3>
-        <p>Custom trading utilities and scripts that support systematic execution, screener logic, and rules-based alert systems.</p>
+      <div class="work-card reveal" style="transition-delay:0.3s;">
+        <span class="tag">SYSTEM</span>
+        <h3>Journaling Systems</h3>
+        <p>Custom tracking and journaling systems to analyze trade data, review psychology, and iterate on edge.</p>
       </div>
     </div>
   </section>
 
   <% if (featuredProjects && featuredProjects.length > 0) { %>
-  <section class="showcase" id="portfolio">
-    <div class="max-w-container">
-      <p class="eyebrow">Trading Systems</p>
-      <h2>Tools Built for the Market</h2>
-      <p class="section-intro">Systematic tools, trading utilities, and market intelligence systems built to give disciplined traders a structural edge.</p>
-      <div class="showcase-grid">
-        <% featuredProjects.forEach((project) => { %>
-          <article class="showcase-card">
-            <h3><%= project.title %></h3>
-            <p><%= project.description %></p>
-            <div class="chip-row">
-              <% (project.tags || []).slice(0, 3).forEach((tag) => { %><span><%= tag %></span><% }) %>
-            </div>
-            <div style="margin-top:1rem;">
-              <a href="/portfolio/<%= project.slug %>">View case study →</a>
-            </div>
-          </article>
-        <% }) %>
-      </div>
-      <div class="cta-buttons" style="margin-top:2rem;">
-        <a href="/portfolio?arm=trades" class="btn btn-secondary">View All Trading Work</a>
-      </div>
+  <section class="work" id="portfolio">
+    <div class="reveal">
+      <span class="eyebrow" style="margin-bottom:18px;">Execution</span>
+      <h2 style="font-family:'Fraunces',serif; font-size:42px; font-weight:400;">Market Portfolio</h2>
+      <p style="color:var(--ash); margin-top:10px;">Trading models, technical frameworks, and market analysis systems developed by ACED Trades.</p>
+    </div>
+    
+    <div class="work-grid">
+      <% featuredProjects.forEach((project, index) => { %>
+        <div class="work-card reveal" style="transition-delay:<%= (index+1)*0.1 %>s;">
+          <% (project.tags || []).slice(0, 3).forEach((tag) => { %>
+            <span class="tag"><%= tag %></span>
+          <% }) %>
+          <h3><a href="/portfolio/<%= project.slug %>"><%= project.title %></a></h3>
+          <p><%= project.description %></p>
+        </div>
+      <% }) %>
+    </div>
+    
+    <div class="hero-cta reveal" style="margin-top:54px; justify-content:flex-start;">
+      <a href="/portfolio?arm=trades" class="btn btn-ghost">View All Market Work</a>
     </div>
   </section>
   <% } %>
 
-  <section class="features">
-    <div class="features-content">
-      <h2>Trading Philosophy</h2>
-      <div class="feature-grid">
-        <div class="feature-item">
-          <h3>✦ Data-Driven</h3>
-          <p>Every decision backed by historical analysis, confluences, and validated setups — not instinct.</p>
-        </div>
-        <div class="feature-item">
-          <h3>✦ Risk Conscious</h3>
-          <p>Capital preservation comes first. No trade is worth blowing the account for.</p>
-        </div>
-        <div class="feature-item">
-          <h3>✦ Rules-Based Execution</h3>
-          <p>A defined playbook for every market condition removes emotion from the equation.</p>
-        </div>
-        <div class="feature-item">
-          <h3>✦ Adaptive Framework</h3>
-          <p>Strategies that evolve with changing market structure, volatility regimes, and macro conditions.</p>
-        </div>
+  <footer id="contact">
+    <div class="aurora"><span class="a1"></span><span class="a2"></span></div>
+    <div class="reveal">
+      <p class="eyebrow" style="justify-content:center;margin-bottom:24px;">Engage</p>
+      <h2>Let's build systems<br><em>with real impact.</em></h2>
+      <p style="color:var(--ash); margin-top:20px; max-width:600px; margin-left:auto; margin-right:auto;">Discuss market strategy, risk frameworks, or trading software integrations.</p>
+      <div class="foot-cta">
+        <a href="mailto:avis@aceddivision.com" class="btn btn-primary">Start a Project</a>
       </div>
     </div>
-  </section>
-
-  <section class="content-section">
-    <div style="background:#fff9e6;border:1px solid #f0c239;border-radius:16px;padding:1.8rem 2rem;">
-      <h3 style="color:#a16207;margin-bottom:0.6rem;">⚠️ Important Risk Disclosure</h3>
-      <p style="color:#92400e;margin:0;font-size:0.95rem;">Trading financial markets involves substantial risk of loss. Past performance is not indicative of future results. All trading strategies carry inherent risks including potential loss of principal. Always conduct your own research and consult a qualified financial advisor before making investment decisions.</p>
-    </div>
-  </section>
-
-  <section class="contact-section" id="contact">
-    <div class="contact-card">
-      <div>
-        <p class="arm-eyebrow">ACED Trades</p>
-        <h2>Serious about your trading? Let's talk strategy.</h2>
-        <p>Whether you're building consistent execution habits or need a systematic framework, we'll help you develop an approach grounded in data and discipline.</p>
+    
+    <div class="foot-links">
+      <div class="foot-brand">
+        <img src="/img/aceddivision-Logo-Icon-OnDark.png" alt="ACED">
+        <span>© 2026 ACED Division LLC</span>
       </div>
-      <div class="contact-actions">
-        <a href="mailto:support@aceddivision.com" class="btn btn-accent">support@aceddivision.com</a>
-        <a href="tel:+14709700798" class="btn btn-secondary">470 970 0798</a>
+      <div class="foot-social">
+        <a href="/privacy-policy">Privacy Policy</a>
+        <a href="/admin/login">Admin</a>
       </div>
     </div>
-  </section>
-
-  <footer class="arm-footer" id="footer-area">
-    <p><strong>ACED Trades</strong> — Financial Markets</p>
-    <p>Part of <a href="/">ACED Division LLC</a> · <a href="/privacy-policy">Privacy Policy</a></p>
-    <p style="margin-top:0.8rem;">© 2026 ACED Division LLC. All rights reserved.</p>
   </footer>
 
-  <script src="/js/aceddivision-script.js"></script>
+  <script src="/js/aceddivision-v2.js"></script>
 </body>
 </html>
