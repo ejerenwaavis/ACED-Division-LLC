@@ -4,41 +4,65 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><%= title %></title>
-  <link rel="stylesheet" href="/css/aceddivision-main.css">
-  <link rel="icon" href="/img/aceddivision-Logo-Icon.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/aceddivision-v2.css">
+  <link rel="icon" href="/img/aceddivision-Logo-Icon-Gold.png" type="image/png">
+  <style>
+    .thumb-button { opacity: 0.6; transition: opacity 0.2s, border-color 0.2s; }
+    .thumb-button:hover { opacity: 1; }
+    .thumb-button.is-active { opacity: 1; border-color: var(--gold) !important; }
+    
+    .timeline-item { display:flex; gap:24px; margin-bottom:40px; }
+    .timeline-marker { font-family:'IBM Plex Mono',monospace; font-size:24px; color:var(--gold); font-weight:500; }
+    .timeline-body h3 { font-family:'Fraunces',serif; font-size:28px; font-weight:400; margin-bottom:12px; }
+    .timeline-body p { color:var(--ash); line-height:1.6; }
+    .timeline-image { margin-top:24px; border-radius:8px; border:1px solid var(--hair-2); }
+    
+    .obstacle-card { background:var(--ink); border:1px solid var(--hair-2); border-radius:12px; padding:32px; margin-bottom:24px; }
+    .obstacle-card p { color:var(--ash); line-height:1.6; margin-top:8px; margin-bottom:24px; }
+    .obstacle-card .label { font-family:'IBM Plex Mono',monospace; font-size:11px; text-transform:uppercase; letter-spacing:0.1em; color:var(--ash-dim); }
+    .obstacle-card .label.accent { color:var(--gold); }
+  </style>
 </head>
 <body>
-  <div class="ambient-gradient"></div>
-  <div class="ambient-grid"></div>
 
-  <%- include('partials/navbar') %>
-  </header>
+  <%- include('partials/navbar-v2') %>
 
-  <section class="project-hero">
-    <div class="project-hero-copy">
-      <p class="eyebrow"><%= project.category.replace(/-/g, ' ') %></p>
+  <section class="hero" id="heroSection" style="min-height: 50svh; padding-bottom: 40px; padding-top: 180px;">
+    <div class="aurora"><span class="a1"></span><span class="a2"></span><span class="a3"></span></div>
+    <div class="spotlight" id="spotlight"></div>
+    <div class="grain"></div>
+    <img class="watermark" src="/img/aceddivision-Logo-Icon-OnDark.png" alt="">
+    
+    <div class="hero-content reveal">
+      <p class="eyebrow" style="justify-content:center;"><%= project.category.replace(/-/g, ' ').toUpperCase() %></p>
       <h1><%= project.title %></h1>
-      <div class="project-meta">
-        <% if (project.client) { %><span><strong>Client:</strong> <%= project.client %></span><% } %>
-        <% if (project.tags && project.tags.length) { %><span><strong>Focus:</strong> <%= project.tags.join(' · ') %></span><% } %>
+      <div style="margin-top: 20px; font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--ash);">
+        <% if (project.client) { %><span style="margin-right:20px;"><strong style="color:var(--bone);">CLIENT:</strong> <%= project.client %></span><% } %>
+        <% if (project.tags && project.tags.length) { %><span><strong style="color:var(--bone);">FOCUS:</strong> <%= project.tags.join(' · ') %></span><% } %>
       </div>
-      <p class="hero-subtitle"><%= project.description %></p>
-      <div class="cta-buttons">
-        <a href="mailto:support@aceddivision.com" class="btn btn-accent">Start a Similar Project</a>
-        <a href="/portfolio" class="btn btn-secondary">Browse More Work</a>
+      <p class="sub" style="margin-top:20px;"><%= project.description %></p>
+      <div class="hero-cta" style="margin-top:40px;">
+        <a href="mailto:support@aceddivision.com" class="btn btn-primary">Start a Similar Project</a>
+        <a href="/portfolio" class="btn btn-ghost">Browse More Work</a>
       </div>
     </div>
-    <div class="project-media-frame">
-      <img id="active-project-image" src="<%= project.images[0] %>" alt="<%= project.title %>">
+  </section>
+
+  <section class="work reveal" style="max-width:1100px; margin:0 auto; padding: 40px 24px; padding-top:0;">
+    <div style="border-radius:12px; overflow:hidden; border:1px solid var(--hair-2);">
+      <img id="active-project-image" src="<%= project.images[0] %>" alt="<%= project.title %>" style="width:100%; display:block;">
     </div>
   </section>
 
   <% if (project.images && project.images.length > 1) { %>
-    <section class="content-section">
-      <div class="thumb-row">
+    <section class="work reveal" style="max-width:1100px; margin:0 auto; padding: 0 24px 60px;">
+      <div style="display:flex; gap:12px; overflow-x:auto; padding-bottom:12px;">
         <% project.images.forEach((image, index) => { %>
-          <button class="thumb-button <%= index === 0 ? 'is-active' : '' %>" data-image="<%= image %>">
-            <img src="<%= image %>" alt="<%= project.title %> thumbnail <%= index + 1 %>">
+          <button class="thumb-button <%= index === 0 ? 'is-active' : '' %>" data-image="<%= image %>" style="flex-shrink:0; width:120px; height:80px; border-radius:6px; overflow:hidden; border:2px solid transparent; cursor:pointer; background:var(--ink); padding:0;">
+            <img src="<%= image %>" alt="<%= project.title %> thumbnail <%= index + 1 %>" style="width:100%; height:100%; object-fit:cover;">
           </button>
         <% }) %>
       </div>
@@ -46,15 +70,15 @@
   <% } %>
 
   <% if (embedUrl || project.videoUrl) { %>
-    <section class="content-section">
-      <div class="media-panel">
-        <h2>Media</h2>
+    <section class="work reveal" style="max-width:900px; margin:0 auto; padding: 40px 24px;">
+      <div style="background:var(--ink); border:1px solid var(--hair-2); border-radius:12px; padding:40px;">
+        <h2 style="font-family:'Fraunces',serif; font-size:32px; font-weight:400; margin-bottom:24px;">Media</h2>
         <% if (embedUrl) { %>
-          <div class="video-wrap">
-            <iframe src="<%= embedUrl %>" title="<%= project.title %> video" allowfullscreen></iframe>
+          <div style="position:relative; padding-bottom:56.25%; height:0; overflow:hidden; border-radius:8px;">
+            <iframe src="<%= embedUrl %>" title="<%= project.title %> video" allowfullscreen style="position:absolute; top:0; left:0; width:100%; height:100%; border:0;"></iframe>
           </div>
         <% } else { %>
-          <p class="section-intro left">This project includes an external video or live experience.</p>
+          <p style="color:var(--ash); margin-bottom:24px;">This project includes an external video or live experience.</p>
           <a href="<%= project.videoUrl %>" class="btn btn-primary" target="_blank" rel="noreferrer">Open Video or Live Link</a>
         <% } %>
       </div>
@@ -62,12 +86,12 @@
   <% } %>
 
   <% if (project.milestones && project.milestones.length) { %>
-    <section class="content-section">
-      <div class="detail-header">
-        <p class="eyebrow">Process</p>
-        <h2>How We Did It</h2>
+    <section class="work reveal" style="max-width:900px; margin:0 auto; padding: 40px 24px;">
+      <div style="margin-bottom:40px;">
+        <p class="eyebrow">PROCESS</p>
+        <h2 style="font-family:'Fraunces',serif; font-size:42px; font-weight:400; margin-top:12px;">How We Did It</h2>
       </div>
-      <div class="timeline-list">
+      <div>
         <% project.milestones.sort((left, right) => (left.order || 0) - (right.order || 0)).forEach((milestone, index) => { %>
           <article class="timeline-item">
             <div class="timeline-marker">0<%= index + 1 %></div>
@@ -85,24 +109,24 @@
   <% } %>
 
   <% if (project.obstacles && project.obstacles.length) { %>
-    <section class="content-section">
-      <div class="detail-header">
-        <p class="eyebrow">Obstacles</p>
-        <h2>Challenges and Solutions</h2>
+    <section class="work reveal" style="max-width:900px; margin:0 auto; padding: 40px 24px;">
+      <div style="margin-bottom:40px;">
+        <p class="eyebrow">OBSTACLES</p>
+        <h2 style="font-family:'Fraunces',serif; font-size:42px; font-weight:400; margin-top:12px;">Challenges and Solutions</h2>
       </div>
-      <div class="obstacle-list">
+      <div>
         <% project.obstacles.forEach((obstacle) => { %>
           <article class="obstacle-card">
             <div>
-              <span class="label-muted">Challenge</span>
+              <span class="label">Challenge</span>
               <p><%= obstacle.challenge %></p>
             </div>
             <div>
-              <span class="label-muted label-accent">Solution</span>
+              <span class="label accent">Solution</span>
               <p><%= obstacle.solution %></p>
             </div>
             <% if (obstacle.image) { %>
-              <img src="<%= obstacle.image %>" alt="Obstacle evidence" class="obstacle-image">
+              <img src="<%= obstacle.image %>" alt="Obstacle evidence" style="margin-top:16px; border-radius:8px; border:1px solid var(--hair-2);">
             <% } %>
           </article>
         <% }) %>
@@ -110,20 +134,30 @@
     </section>
   <% } %>
 
-  <section class="contact-section" id="contact">
-    <div class="contact-card">
-      <div>
-        <p class="eyebrow">Contact</p>
-        <h2>Want a system like this?</h2>
-        <p>Tell us what you are building, what is slowing you down, and what success should look like.</p>
-      </div>
-      <div class="contact-actions">
-        <a href="mailto:support@aceddivision.com" class="btn btn-accent">support@aceddivision.com</a>
-        <a href="tel:+14709700798" class="btn btn-secondary">470 970 0798</a>
+  <footer id="contact" style="margin-top:60px;">
+    <div class="aurora"><span class="a1"></span><span class="a2"></span></div>
+    <div class="reveal">
+      <p class="eyebrow" style="justify-content:center;margin-bottom:24px;">Engage</p>
+      <h2>Want a system<br><em>like this?</em></h2>
+      <p style="color:var(--ash); margin-top:20px; max-width:600px; margin-left:auto; margin-right:auto;">Tell us what you are building, what is slowing you down, and what success should look like.</p>
+      <div class="foot-cta">
+        <a href="mailto:support@aceddivision.com" class="btn btn-primary">support@aceddivision.com</a>
       </div>
     </div>
-  </section>
+    
+    <div class="foot-links">
+      <div class="foot-brand">
+        <img src="/img/aceddivision-Logo-Icon-OnDark.png" alt="ACED">
+        <span>© 2026 ACED Division LLC</span>
+      </div>
+      <div class="foot-social">
+        <a href="/privacy-policy">Privacy Policy</a>
+        <a href="/admin/login">Admin</a>
+      </div>
+    </div>
+  </footer>
 
+  <script src="/js/aceddivision-v2.js"></script>
   <script>
     document.querySelectorAll('.thumb-button').forEach((button) => {
       button.addEventListener('click', () => {

@@ -4,54 +4,82 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><%= title %></title>
-  <link rel="stylesheet" href="/css/aceddivision-main.css">
-  <link rel="icon" href="/img/aceddivision-Logo-Icon.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/aceddivision-v2.css">
+  <link rel="icon" href="/img/aceddivision-Logo-Icon-Gold.png" type="image/png">
 </head>
 <body>
-  <div class="ambient-gradient"></div>
-  <div class="ambient-diagonal"></div>
 
-  <%- include('partials/navbar') %>
-  </header>
+  <%- include('partials/navbar-v2') %>
 
-  <section class="landing-hero compact-hero">
-    <p class="eyebrow">Selected Work</p>
-    <h1>Portfolio That Shows Process, Not Just Polish.</h1>
-    <p>Explore featured project delivery, visual case studies, workflow milestones, and obstacle-to-solution breakdowns across the ACED ecosystem.</p>
+  <section class="hero" id="heroSection" style="min-height: 50svh; padding-bottom: 40px; padding-top: 180px;">
+    <div class="aurora"><span class="a1"></span><span class="a2"></span><span class="a3"></span></div>
+    <div class="spotlight" id="spotlight"></div>
+    <div class="grain"></div>
+    <img class="watermark" src="/img/aceddivision-Logo-Icon-OnDark.png" alt="">
+    
+    <div class="hero-content reveal">
+      <p class="eyebrow">SELECTED WORK</p>
+      <h1>Portfolio That Shows Process,<br><em>Not Just Polish.</em></h1>
+      <p class="sub">Explore featured project delivery, visual case studies, workflow milestones, and obstacle-to-solution breakdowns across the ACED ecosystem.</p>
+    </div>
   </section>
 
-  <section class="content-section gallery-shell">
-    <div class="filter-row">
-      <a href="/portfolio" class="filter-chip <%= !activeCategory && !activeArm ? 'is-active' : '' %>">All</a>
+  <section class="work" id="portfolio-grid" style="padding-top: 20px;">
+    <div class="reveal" style="display:flex; flex-wrap:wrap; gap:12px; margin-bottom: 48px; justify-content: center; max-width: 900px; margin-left:auto; margin-right:auto;">
+      <a href="/portfolio#portfolio-grid" class="btn <%= !activeCategory && !activeArm ? 'btn-primary' : 'btn-ghost' %>" style="padding:10px 20px; font-size:12px;">All</a>
       <% if (site === 'master') { %>
-        <a href="/portfolio?arm=devops" class="filter-chip arm-badge-devops <%= activeArm === 'devops' && !activeCategory ? 'is-active' : '' %>">Devops</a>
-        <a href="/portfolio?arm=pixels" class="filter-chip arm-badge-pixels <%= activeArm === 'pixels' && !activeCategory ? 'is-active' : '' %>">Pixels</a>
-        <a href="/portfolio?arm=trades" class="filter-chip arm-badge-trades <%= activeArm === 'trades' && !activeCategory ? 'is-active' : '' %>">Trades</a>
-        <span style="width:1px;background:var(--border);margin:0 0.3rem;"></span>
+        <a href="/portfolio?arm=devops#portfolio-grid" class="btn <%= activeArm === 'devops' && !activeCategory ? 'btn-primary' : 'btn-ghost' %>" style="padding:10px 20px; font-size:12px;">Devops</a>
+        <a href="/portfolio?arm=pixels#portfolio-grid" class="btn <%= activeArm === 'pixels' && !activeCategory ? 'btn-primary' : 'btn-ghost' %>" style="padding:10px 20px; font-size:12px;">Pixels</a>
+        <a href="/portfolio?arm=trades#portfolio-grid" class="btn <%= activeArm === 'trades' && !activeCategory ? 'btn-primary' : 'btn-ghost' %>" style="padding:10px 20px; font-size:12px;">Trades</a>
+        <span style="width:1px;background:var(--hair-2);margin:0 0.3rem;"></span>
       <% } %>
       <% categories.forEach((category) => { %>
-        <a href="/portfolio?<%= activeArm ? 'arm=' + activeArm + '&' : '' %>category=<%= category %>" class="filter-chip <%= activeCategory === category ? 'is-active' : '' %>"><%= category.replace(/-/g, ' ') %></a>
+        <a href="/portfolio?<%= activeArm ? 'arm=' + activeArm + '&' : '' %>category=<%= category %>#portfolio-grid" class="btn <%= activeCategory === category ? 'btn-primary' : 'btn-ghost' %>" style="padding:10px 20px; font-size:12px; text-transform:capitalize;"><%= category.replace(/-/g, ' ') %></a>
       <% }) %>
     </div>
 
-    <div class="portfolio-grid">
+    <div class="work-grid">
       <% projects.forEach((project, index) => { %>
-        <a href="/portfolio/<%= project.slug %>" class="portfolio-card <%= index % 5 === 0 ? 'portfolio-card-featured' : '' %>">
-          <div class="portfolio-media">
-            <img src="<%= project.images[0] %>" alt="<%= project.title %>">
+        <div class="work-card reveal" style="transition-delay:<%= (index%3)*0.1 %>s; cursor:pointer;" onclick="window.location.href='/portfolio/<%= project.slug %>'">
+          <div style="margin-bottom: 20px; border-radius: 8px; overflow:hidden; border:1px solid var(--hair-2);">
+             <img src="<%= project.images[0] %>" alt="<%= project.title %>" style="width:100%; height:240px; object-fit:cover; display:block;">
           </div>
-          <div class="portfolio-overlay">
-            <% if (project.arm) { %>
-              <span class="arm-badge arm-badge-<%= project.arm %>" style="margin-bottom:0.4rem;"><%= project.arm %></span>
-            <% } %>
-            <span class="portfolio-category"><%= project.category.replace(/-/g, ' ') %></span>
-            <h3><%= project.title %></h3>
-            <p><%= project.client || 'ACED Division' %></p>
-            <span class="portfolio-link">View project</span>
-          </div>
-        </a>
+          <% if (project.arm) { %>
+            <span class="tag"><%= project.arm %></span>
+          <% } %>
+          <span class="tag" style="color:var(--ash-dim);"><%= project.category.replace(/-/g, ' ') %></span>
+          <h3 style="margin-top:12px; font-size:20px;"><a href="/portfolio/<%= project.slug %>"><%= project.title %></a></h3>
+          <p style="font-family:'IBM Plex Mono',monospace; font-size:11px; margin-top:8px; text-transform:uppercase;"><%= project.client || 'ACED Division' %></p>
+        </div>
       <% }) %>
     </div>
   </section>
+
+  <footer id="contact">
+    <div class="aurora"><span class="a1"></span><span class="a2"></span></div>
+    <div class="reveal">
+      <p class="eyebrow" style="justify-content:center;margin-bottom:24px;">Engage</p>
+      <h2>Ready to build something<br><em>with real impact?</em></h2>
+      <div class="foot-cta">
+        <a href="mailto:avis@aceddivision.com" class="btn btn-primary">Start a Project</a>
+      </div>
+    </div>
+    
+    <div class="foot-links">
+      <div class="foot-brand">
+        <img src="/img/aceddivision-Logo-Icon-OnDark.png" alt="ACED">
+        <span>© 2026 ACED Division LLC</span>
+      </div>
+      <div class="foot-social">
+        <a href="/privacy-policy">Privacy Policy</a>
+        <a href="/admin/login">Admin</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/js/aceddivision-v2.js"></script>
 </body>
 </html>
